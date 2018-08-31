@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.WrapperListAdapter;
 
-import com.app.qingyi.adapters.CapitalFlowAdapter;
+import com.app.qingyi.adapters.GradViewAdapter;
 import com.baoyz.swipemenulistview.SwipeMenuView.OnSwipeItemClickListener;
 
 import java.util.ArrayList;
@@ -24,16 +24,16 @@ import java.util.List;
 public class SwipeMenuAdapter implements WrapperListAdapter,
 		OnSwipeItemClickListener {
 
-    private CapitalFlowAdapter mAdapter;
+    private GradViewAdapter mAdapter;
     private Context mContext;
     private SwipeMenuListView.OnMenuItemClickListener onMenuItemClickListener;
     private List<Boolean> lists = new ArrayList<Boolean>();
-    public SwipeMenuAdapter(Context context, CapitalFlowAdapter adapter) {
+    public SwipeMenuAdapter(Context context, GradViewAdapter adapter) {
         mAdapter = adapter;
         mContext = context;
     }
 
-    public SwipeMenuAdapter(Context context, CapitalFlowAdapter adapter,List<Boolean> list) {
+    public SwipeMenuAdapter(Context context, GradViewAdapter adapter, List<Boolean> list) {
         mAdapter = adapter;
         mContext = context;
         lists = list;
@@ -77,9 +77,9 @@ public class SwipeMenuAdapter implements WrapperListAdapter,
             View view = mAdapter.getView(position, layout.getContentView(),
                     parent);
         }
-        if (mAdapter instanceof CapitalFlowAdapter) {
-            boolean swipEnable = (((CapitalFlowAdapter) mAdapter).getObjects().get(position).getStatus().equals("wait") ? true:false);
-            layout.setSwipEnable(swipEnable);
+        if (mAdapter instanceof GradViewAdapter) {
+//            boolean swipEnable = (((GradViewAdapter) mAdapter).getObjects().get(position).getStatus().equals("wait") ? true:false);
+//            layout.setSwipEnable(swipEnable);
         }
         return layout;
     }

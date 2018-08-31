@@ -1,16 +1,14 @@
 package com.baoyz.swipemenulistview;
 
 import android.content.Context;
-import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Interpolator;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.app.qingyi.adapters.CapitalFlowAdapter;
+import com.app.qingyi.adapters.GradViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +68,7 @@ public class SwipeMenuListView extends ListView {
         return this;
     }
 
-    public void setAdapter(CapitalFlowAdapter adapter) {
+    public void setAdapter(GradViewAdapter adapter) {
         super.setAdapter(new SwipeMenuAdapter(getContext(), adapter,lists) {
             @Override
             public void createMenu(SwipeMenu menu) {
