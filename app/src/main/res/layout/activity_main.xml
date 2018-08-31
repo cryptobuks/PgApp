@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white">
+
+    <com.app.qingyi.views.CustomViewPager
+        android:id="@+id/mViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom"
+        android:layout_weight="1" />
+
+    <include
+        android:id="@+id/bottom"
+        layout="@layout/navigation_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="170px"
+        android:layout_alignParentBottom="true" />
+
+
+    <com.app.qingyi.views.SquareRelativeLayout
+        android:id="@+id/layoutAdd"
+        android:onClick="onClick"
+        android:layout_width="160px"
+        android:layout_height="160px"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25px"
+        android:background="@drawable/round">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="55px"
+            android:src="@mipmap/add" />
+    </com.app.qingyi.views.SquareRelativeLayout>
+
+</RelativeLayout>

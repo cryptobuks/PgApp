@@ -1,0 +1,55 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    useLibrary 'org.apache.http.legacy' //api 23+ 使用 HttpClient
+    defaultConfig {
+        applicationId "com.app.qingyi"
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 72
+        versionName "0.7.2"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    allprojects {
+        repositories {
+            maven { url 'https://jitpack.io' }
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    api 'com.android.support:design:26.+'
+    api 'com.android.support.constraint:constraint-layout:1.0.2'
+    api 'com.android.support:recyclerview-v7:26.+'
+    api 'de.hdodenhof:circleimageview:2.1.0'
+    api 'com.github.GrenderG:Toasty:1.1.5'
+    api 'com.zhy:autolayout:1.4.5'
+    api 'com.google.code.gson:gson:2.7'
+    api 'com.squareup.picasso:picasso:2.3.2'
+    api 'com.youth.banner:banner:1.4.10'
+    api 'com.github.thomper:sweet-alert-dialog:v1.4.0'
+    api 'com.github.bumptech.glide:glide:4.2.0'
+    api 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    api 'com.nispok:snackbar:2.11.0'
+
+    api 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
+    api 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5.1'//没有使用特殊Header，可以不加这行
+    api 'com.android.support:appcompat-v7:26.1.0'//版本 23以上（必须）
+    api 'com.android.support:design:26.1.0'//版本随意（非必须，引用可以解决无法预览问题）
+    implementation 'com.android.support:support-v4:26.+'
+
+    implementation 'com.journeyapps:zxing-android-embedded:3.5.0'
+}

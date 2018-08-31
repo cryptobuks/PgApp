@@ -1,0 +1,116 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="654px"
+        android:background="@color/mainColor">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="154px"
+            android:layout_marginLeft="45px"
+            android:gravity="center_vertical"
+            android:text="账户"
+            android:textColor="@android:color/white"
+            android:textSize="54px" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_centerHorizontal="true"
+            android:text="Xiao****1994"
+            android:textColor="@color/white"
+            android:textSize="42px" />
+
+        <TextView
+            android:id="@+id/tvyuename"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80px"
+            android:text="账户余额 (DO)"
+            android:textColor="#99ffffff"
+            android:textSize="38px" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvyuename"
+            android:layout_centerHorizontal="true"
+            android:text="0"
+            android:textColor="#ffffff"
+            android:textSize="182px" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="25px"
+        android:orientation="horizontal">
+
+        <com.app.qingyi.views.SquareRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#F5A623">
+
+            <ImageView
+                android:id="@+id/img1"
+                android:layout_width="160px"
+                android:layout_height="160px"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="125px"
+                android:src="@mipmap/recharge" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img1"
+                android:textSize="42px"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="45px"
+                android:text="账户充值"
+                android:textColor="@color/white" />
+        </com.app.qingyi.views.SquareRelativeLayout>
+
+        <View
+            android:layout_width="25px"
+            android:layout_height="25px" />
+
+        <com.app.qingyi.views.SquareRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#ED4B74">
+
+            <ImageView
+                android:id="@+id/img2"
+                android:layout_width="160px"
+                android:layout_height="160px"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="125px"
+                android:src="@mipmap/mouth" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="45px"
+                android:text="已购买信息"
+                android:textSize="42px"
+                android:textColor="@color/white" />
+        </com.app.qingyi.views.SquareRelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

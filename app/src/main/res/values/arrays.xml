@@ -1,0 +1,8 @@
+<!--?xml version=1.0 encoding=utf-8?-->
+<resources>
+    <string-array name="messagePopuWindowmore">
+        <item>解锁</item>
+        <item>场外交易</item>
+        <item>集合竞价</item>
+    </string-array>
+</resources>

@@ -1,0 +1,24 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="tag_corner_radius">20.0dip</dimen>
+    <dimen name="tag_horizontal_spacing">8.0dip</dimen>
+    <dimen name="tag_vertical_spacing">6.0dip</dimen>
+
+    <!-- h1基本用于titlebar标题一级 -->
+    <dimen name="h1">23dp</dimen>
+    <!-- h2暂无明确使用，预留 -->
+    <dimen name="h2">20dp</dimen>
+    <!-- h3主要用于控件、按钮文本等效果 -->
+    <dimen name="h3">17dp</dimen>
+    <!-- h4主要用于条目中的主标题 -->
+    <dimen name="h4">15dp</dimen>
+    <!-- h5主要用于条目中的简介描述等-->
+    <dimen name="h5">14dp</dimen>
+    <!-- h6用户优惠券标签 -->
+    <dimen name="h6">12dp</dimen>
+    <dimen name="h7">32px</dimen>
+    <dimen name="h8">58px</dimen>
+</resources>
