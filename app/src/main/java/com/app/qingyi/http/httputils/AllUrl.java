@@ -42,8 +42,8 @@ public class AllUrl {
         return Url.BASE_URL + "/goods/list/by/area/" + curPage + "/" + limit;
     }
 
-    public String get7days() {
-        return Url.BASE_URL + "/authed/account/allbox/recentSevenDayCoin";
+    public String getAccountUrl() {
+        return Url.BASE_URL + "/account/dobi/detailed";
     }
 
     public String getAppVersionUrl() {

@@ -21,12 +21,13 @@
             android:textSize="54px" />
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/title"
             android:layout_centerHorizontal="true"
-            android:text="Xiao****1994"
+            android:text="未登录"
+            android:onClick="onClick"
             android:textColor="@color/white"
             android:textSize="42px" />
 
@@ -34,7 +35,7 @@
             android:id="@+id/tvyuename"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/name"
+            android:layout_below="@+id/account"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="80px"
             android:text="账户余额 (DO)"
@@ -42,6 +43,7 @@
             android:textSize="38px" />
 
         <TextView
+            android:id="@+id/tvAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvyuename"

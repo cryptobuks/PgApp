@@ -41,7 +41,7 @@ public class HomeMain2Fragment extends Fragment implements View.OnClickListener 
     private AccountStatus mAccountStatus;
     private LoginConfig mLoginConfig;
     private AppUpdate appUpdate;
-    private TextView tvPass, tvTibiPass, tvPhone, tvEmail, tvVersion, tvUpdate;
+    private TextView tvAmount,account;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -53,26 +53,16 @@ public class HomeMain2Fragment extends Fragment implements View.OnClickListener 
                     startActivity(new Intent(mContext, LoginActivity.class));
                     break;
                 case GlobleValue.SUCCESS2:
-                    if (mAccountStatus != null) {
-                        if (mAccountStatus.getEmail() == null) {
-                            tvEmail.setText("暂无");
-                        } else {
-                            tvEmail.setText(mAccountStatus.getEmail());
-                        }
-                        if (!mAccountStatus.isHaveCapitalPass()) {
-                            tvTibiPass.setText("未设置");
-                            tvTibiPass.setTextColor(getResources().getColor(R.color.mainColor));
-                        } else {
-                            tvTibiPass.setText("已设置");
-                        }
-                        tvPhone.setText(mAccountStatus.getPhone());
+                    if (mAccountStatus != null && mAccountStatus.getIsSuccess()) {
+                        tvAmount.setText(mAccountStatus.getBalance()+"");
+                        account.setText(mAccountStatus.getAccount());
                     }
                     break;
                 case GlobleValue.SUCCESS3:
                     if (mLoginConfig.getVersion() > Utils.getVerCode(mContext)) {
                         createUpdateDialog(appUpdate.getUpdateContent());
                     } else {
-                        Snackbar.make(tvPhone, "当前已是最新版本", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(tvAmount, "当前已是最新版本", Snackbar.LENGTH_LONG).show();
                     }
                     break;
             }
@@ -82,8 +72,14 @@ public class HomeMain2Fragment extends Fragment implements View.OnClickListener 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main2, null);
-
+        initView(view);
         return view;
+    }
+
+    private void initView(View view) {
+        tvAmount = (TextView)view.findViewById(R.id.tvAmount);
+        account = (TextView)view.findViewById(R.id.account);
+        account.setOnClickListener(this);
     }
 
     @Override
@@ -93,12 +89,22 @@ public class HomeMain2Fragment extends Fragment implements View.OnClickListener 
 //                Intent intent = new Intent(view.getContext(), ResetPasswordActivity.class);
 //                startActivity(intent);
 //                break;
+            case R.id.account:
+                if(LoginConfig.getAuthorization() == null || LoginConfig.getAuthorization().equals("")){
+                    startActivity(new Intent(mContext,LoginActivity.class));
+                }
+                break;
             default:
 
                 break;
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getAccount();
+    }
 
     private void sureLogOut() {
         String msg = "您确定要退出登录吗？";
@@ -135,12 +141,15 @@ public class HomeMain2Fragment extends Fragment implements View.OnClickListener 
                         }
                     }, mContext);
         } else {
-            Snackbar.make(tvPass, "网络未连接", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(tvAmount, "网络未连接", Snackbar.LENGTH_LONG).show();
         }
     }
 
     private void getAccount() {
-        String url = AllUrl.getInstance().getCANStatusUrl();
+        if(LoginConfig.getAuthorization() == null || LoginConfig.getAuthorization().equals("")){
+            return;
+        }
+        String url = AllUrl.getInstance().getAccountUrl();
         if (HttpUtil.isNetworkAvailable(mContext)) {
             AsyncTaskManager.getInstance().StartHttp(new BaseRequestParm(mContext, url, null,
                             AsyncTaskManager.ContentTypeJson, "GET", LoginConfig.getAuthorization()),
@@ -163,7 +172,7 @@ public class HomeMain2Fragment extends Fragment implements View.OnClickListener 
                         }
                     }, mContext);
         } else {
-            Snackbar.make(tvPass, "网络未连接", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(tvAmount, "网络未连接", Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -202,7 +211,7 @@ public class HomeMain2Fragment extends Fragment implements View.OnClickListener 
                         }
                     }, mContext);
         } else {
-            Snackbar.make(tvPhone, "网络未连接", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(tvAmount, "网络未连接", Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -225,7 +234,7 @@ public class HomeMain2Fragment extends Fragment implements View.OnClickListener 
                     Utils.startAppUpdate(mContext, appUpdate.getDownLoad(), "mobipromoBox-" + appUpdate.getVersion() + ".apk");
                     return;
                 }
-                Snackbar.make(tvPhone, "正在下载安装包", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(tvAmount, "正在下载安装包", Snackbar.LENGTH_LONG).show();
             }
         }).create().show();
     }
