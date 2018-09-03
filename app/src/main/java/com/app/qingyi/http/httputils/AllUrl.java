@@ -34,12 +34,14 @@ public class AllUrl {
         return Url.BASE_URL + "/token/refresh";
     }
 
-    //挖矿统计
-    public String getStatistics() {
-        return Url.BASE_URL + "/authed/account/allbox/statistics";
+    public String getDefailtGoodsUrl(int curPage, int limit) {
+        return Url.BASE_URL + "/goods/list/" + curPage + "/" + limit;
     }
 
-    //7日数据
+    public String getGoodsByAreaUrl(String area, int curPage, int limit) {
+        return Url.BASE_URL + "/goods/list/by/area/" + area + "/" + curPage + "/" + limit;
+    }
+
     public String get7days() {
         return Url.BASE_URL + "/authed/account/allbox/recentSevenDayCoin";
     }

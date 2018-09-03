@@ -44,20 +44,27 @@ import es.dmoral.toasty.Toasty;
  */
 public class HomeMain1Fragment extends Fragment implements View.OnClickListener {
     private Context mContext;
-    private MiningStatus mMiningStatus = null;
     private TabLayout mTabLayout;
     private GridView mGridView;
+    private int curPage = 1;
+    private int limit = 10;
+    private String filter = "001";
     private RefreshLayout refreshLayout;
-    private List<Goods.GoodsItem> all7 = new ArrayList<>();
+    private List<Goods.GoodsItem> allData = new ArrayList<>();
     private GradViewAdapter mGradViewAdapter;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            refreshLayout.finishRefresh(1000/*,false*/);//传入false表示刷新失败
+            refreshLayout.finishLoadMore(1000/*,false*/);//传入false表示加载失败
             switch (msg.what) {
                 case GlobleValue.SUCCESS:
+                    mGradViewAdapter.setObjects(allData);
                     break;
                 case GlobleValue.SUCCESS2:
+                    curPage--;
+                    Snackbar.make(mTabLayout,"没有更多数据",Snackbar.LENGTH_LONG).show();
                     break;
                 case GlobleValue.FAIL:
                     break;
@@ -99,7 +106,7 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
-                Toasty.normal(mContext,mTitleList.get(position)).show();
+                Toasty.normal(mContext, mTitleList.get(position)).show();
             }
 
             @Override
@@ -112,24 +119,25 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
 
             }
         });
-        String [] pictures =  {"http://pic26.photophoto.cn/20130324/0036036837895295_b.jpg"};
-        all7.add(new Goods.GoodsItem(1,"美女会所嫩模学生白领护士御姐肤白貌美姐…",pictures,1000,"300起"));
-        all7.add(new Goods.GoodsItem(1,"美女会所嫩模学生白领护士御姐肤白貌美姐…",pictures,1000,"300起"));
-        all7.add(new Goods.GoodsItem(1,"美女会所嫩模学生白领护士御姐肤白貌美姐…",pictures,1000,"300起"));
+//        String[] pictures = {"http://pic26.photophoto.cn/20130324/0036036837895295_b.jpg"};
+//        allData.add(new Goods.GoodsItem(1, "美女会所嫩模学生白领护士御姐肤白貌美姐…", pictures, 1000, "300起"));
+//        allData.add(new Goods.GoodsItem(1, "美女会所嫩模学生白领护士御姐肤白貌美姐…", pictures, 1000, "300起"));
+//        allData.add(new Goods.GoodsItem(1, "美女会所嫩模学生白领护士御姐肤白貌美姐…", pictures, 1000, "300起"));
         mGradViewAdapter = new GradViewAdapter(mContext);
-        mGradViewAdapter.setObjects(all7);
+        mGradViewAdapter.setObjects(allData);
         mGridView.setAdapter(mGradViewAdapter);
 
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-//                curPage = 1;
+                curPage = 1;
+                getDefailtData(curPage);
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(RefreshLayout refreshlayout) {
-//                getDevicesList(++curPage, filter);
+                getDefailtData(++curPage);
             }
         });
     }
@@ -138,10 +146,14 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
     @Override
     public void onResume() {
         super.onResume();
+        getDefailtData(curPage);
     }
 
-    private void getStatistics() {
-        String url = AllUrl.getInstance().getStatistics();
+    private void getDefailtData(int page) {
+        String url = AllUrl.getInstance().getDefailtGoodsUrl(page, limit);
+        if(!filter.equals("001")){
+            url = AllUrl.getInstance().getGoodsByAreaUrl(filter,page, limit);
+        }
         if (HttpUtil.isNetworkAvailable(mContext)) {
             AsyncTaskManager.getInstance().StartHttp(new BaseRequestParm(mContext, url, null,
                             AsyncTaskManager.ContentTypeJson, "GET", LoginConfig.getAuthorization()),
@@ -161,7 +173,14 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
                         }
 
                         private void analiData(BaseResponseBean bean) {
-                            mMiningStatus = GsonUtils.JsonObjectToBean(GsonUtils.getRootJsonObject(bean.getResult()), MiningStatus.class);
+                            Goods mGoods = GsonUtils.JsonObjectToBean(GsonUtils.getRootJsonObject(bean.getResult()), Goods.class);
+                            if(curPage == 1){
+                                allData.clear();
+                            }else if (curPage > 1 && mGoods.getList().size() == 0) {
+                                handler.sendEmptyMessage(GlobleValue.SUCCESS2);
+                                return;
+                            }
+                            allData.addAll(mGoods.getList());
                             handler.sendEmptyMessage(GlobleValue.SUCCESS);
                         }
                     }, mContext);
@@ -170,41 +189,6 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
         }
     }
 
-    private void getChart() {
-        if (ACache.get(mContext).getAsString(LoginConfig.getAccount() + Utils.getToday()) != null) {
-            all7 = GsonUtils.JsonArrayToListBean(GsonUtils.getRootJsonObject(ACache.get(mContext).getAsString(LoginConfig.getAccount() + Utils.getToday())).getAsJsonArray("data"), Goods.GoodsItem.class);
-            handler.sendEmptyMessage(GlobleValue.SUCCESS2);
-            return;
-        }
-        String url = AllUrl.getInstance().get7days();
-        if (HttpUtil.isNetworkAvailable(mContext)) {
-            AsyncTaskManager.getInstance().StartHttp(new BaseRequestParm(mContext, url, null,
-                            AsyncTaskManager.ContentTypeJson, "GET", LoginConfig.getAuthorization()),
-                    new RequestListener<BaseResponseBean>() {
-
-                        @Override
-                        public void onFailed() {
-                            handler.sendEmptyMessage(GlobleValue.FAIL);
-                        }
-
-                        @Override
-                        public void onComplete(BaseResponseBean bean) {
-                            if (bean.isSuccess()) {
-                                analiData(bean);
-                            } else
-                                handler.sendEmptyMessage(GlobleValue.FAIL);
-                        }
-
-                        private void analiData(BaseResponseBean bean) {
-                            all7 = GsonUtils.JsonArrayToListBean(GsonUtils.getRootJsonObject(bean.getResult()).getAsJsonArray("data"), Goods.GoodsItem.class);
-                            ACache.get(mContext).put(LoginConfig.getAccount() + Utils.getToday(), bean.getResult());
-                            handler.sendEmptyMessage(GlobleValue.SUCCESS2);
-                        }
-                    }, mContext);
-        } else {
-            Snackbar.make(mTabLayout, "网络未连接", Snackbar.LENGTH_LONG).show();
-        }
-    }
 
     @Override
     public void onClick(View view) {
