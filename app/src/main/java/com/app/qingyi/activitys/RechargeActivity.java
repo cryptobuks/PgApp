@@ -80,7 +80,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 public void run() {
                     handler.sendEmptyMessage(GlobleValue.SUCCESS);
                 }
-            }, 1000);
+            }, 500);
         }
     }
 

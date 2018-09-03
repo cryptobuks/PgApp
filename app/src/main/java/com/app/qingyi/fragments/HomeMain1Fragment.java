@@ -1,6 +1,7 @@
 package com.app.qingyi.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,9 +11,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.app.qingyi.R;
+import com.app.qingyi.activitys.DetailsActivity;
 import com.app.qingyi.adapters.GradViewAdapter;
 import com.app.qingyi.http.httputils.AllUrl;
 import com.app.qingyi.http.httputils.AsyncTaskManager;
@@ -24,20 +27,14 @@ import com.app.qingyi.http.responsebeans.BaseResponseBean;
 import com.app.qingyi.http.responsebeans.RequestListener;
 import com.app.qingyi.models.Area;
 import com.app.qingyi.models.Goods;
-import com.app.qingyi.models.MiningStatus;
-import com.app.qingyi.models.TodayCoin;
-import com.app.qingyi.utils.ACache;
 import com.app.qingyi.utils.GlobleValue;
 import com.app.qingyi.utils.LoginConfig;
-import com.app.qingyi.utils.Utils;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import es.dmoral.toasty.Toasty;
 
 /**
  * 首页
@@ -132,6 +129,14 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
             @Override
             public void onLoadMore(RefreshLayout refreshlayout) {
                 getDefailtData(++curPage);
+            }
+        });
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(mContext, DetailsActivity.class);
+                intent.putExtra("id",allData.get(i).getId());
+                startActivity(intent);
             }
         });
     }

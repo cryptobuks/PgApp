@@ -20,7 +20,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.app.qingyi.models.TodayCoin;
+import com.app.qingyi.models.PayStatus;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -515,24 +515,6 @@ public class Utils {
         Calendar cal = Calendar.getInstance();// 当前日期
         cal.add(Calendar.HOUR, -8);
         return cal.getTime();
-    }
-
-
-    public static float getDataByType(List<TodayCoin> list, String type) {
-        if (list == null || list.size() == 0) return 0;
-        float min, max;
-        min = max = list.get(0).getSum();
-        for (int j = 0; j < list.size(); j++) {
-            if (list.get(j).getSum() > max)   // 判断最大值
-                max = list.get(j).getSum();
-            if (list.get(j).getSum() < min)   // 判断最小值
-                min = list.get(j).getSum();
-        }
-        if (type.equals("min")) {
-            return min == 0.0 ? 0 : min - min / 4;
-        } else {
-            return max == 0.0 ? 0 : max + max / 4;
-        }
     }
 
     public static String getRandomColor() {

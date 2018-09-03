@@ -54,10 +54,15 @@ public class AllUrl {
         return Url.BASE_URL + "/account/recaptcha/captcha.jpg";
     }
 
-    public String getCANStatusUrl() {
-        return Url.BASE_URL + "/authed/account/can/status";
+    public String getGoodsDetailsUrl(int id) {
+        return Url.BASE_URL + "/goods/list/item/details/"+id;
     }
-
+    public String getGoodsPrivateUrl(int id) {
+        return Url.BASE_URL + "/goods/list/item/private/"+id;
+    }
+    public String getGoodsPrivateByPayUrl(int id) {
+        return Url.BASE_URL + "/goods/list/item/private/bybuy/"+id;
+    }
 
     public String getAdvertisementUrl() {
         return Url.BASE_URL + "/manage/advertisement/getFirstPageAd";

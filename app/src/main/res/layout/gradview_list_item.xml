@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white">
+
+    <com.app.qingyi.views.SquareRelativeLayout
+        android:id="@+id/layout001"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_default" />
+    </com.app.qingyi.views.SquareRelativeLayout>
+
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout001"
+        android:lines="2"
+        android:padding="20px"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="42px" />
+
+    <RelativeLayout
+        android:layout_below="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="20px"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:id="@+id/like"
+            android:layout_width="50px"
+            android:layout_height="50px"
+            android:layout_marginLeft="20px"
+            android:layout_marginRight="5px"
+            android:scaleType="fitXY"
+            android:src="@mipmap/like" />
+
+        <TextView
+            android:id="@+id/clicks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20px"
+            android:layout_toRightOf="@+id/like"
+            android:layout_centerVertical="true"
+            android:text="13"
+            android:textColor="@color/fontColorGray"
+            android:textSize="38px" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="40px"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="40px"
+            android:text="¥1200/次起"
+            android:textColor="#B00020"
+            android:textSize="38px" />
+    </RelativeLayout>
+</RelativeLayout>

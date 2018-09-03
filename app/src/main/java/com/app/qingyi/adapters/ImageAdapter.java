@@ -9,44 +9,37 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.qingyi.R;
-import com.app.qingyi.models.Information;
+import com.app.qingyi.views.AutoHeightImageView;
 import com.squareup.picasso.Picasso;
 import com.zhy.autolayout.utils.AutoUtils;
 
-import java.util.ArrayList;
-import java.util.List;
 
+public class ImageAdapter extends BaseAdapter {
 
-public class InformationAdapter extends BaseAdapter {
-
-    private List<Information.inforItem> objects = new ArrayList<Information.inforItem>();
+    private String[] objects = new String[]{};
     @SuppressWarnings("unused")
     private Context context;
     private LayoutInflater layoutInflater;
 
-    public InformationAdapter(Context context, List<Information.inforItem> objects) {
+    public ImageAdapter(Context context, String[] objects) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
         this.objects = objects;
     }
 
-    public void setObjects(List<Information.inforItem> objects) {
+    public void setObjects(String[] objects) {
         this.objects = objects;
         notifyDataSetChanged();
     }
 
-    public void addObjects(List<Information.inforItem> objects) {
-        this.objects.addAll(objects);
-        notifyDataSetChanged();
-    }
     @Override
     public int getCount() {
-        return objects.size();
+        return objects.length;
     }
 
     @Override
-    public Information.inforItem getItem(int position) {
-        return objects.get(position);
+    public String getItem(int position) {
+        return objects[position];
     }
 
     @Override
@@ -61,35 +54,29 @@ public class InformationAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.infor_list_item, parent, false);
+            convertView = layoutInflater.inflate(R.layout.img_list_item, parent, false);
             viewHolder = new ViewHolder();
-            viewHolder.tvName = (TextView) convertView.findViewById(R.id.tvName);
-            viewHolder.tvTime = (TextView) convertView.findViewById(R.id.tvTime);
-            viewHolder.imageView = (ImageView) convertView.findViewById(R.id.imageView);
+            viewHolder.imageView = (AutoHeightImageView) convertView.findViewById(R.id.imageView);
             convertView.setTag(viewHolder);
             AutoUtils.autoSize(convertView);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        initializeViews((Information.inforItem) getItem(position), (ViewHolder) convertView.getTag(),position);
+        initializeViews(getItem(position), (ViewHolder) convertView.getTag(),position);
         return convertView;
     }
 
-    private void initializeViews(final Information.inforItem object, ViewHolder holder, final int position) {
+    private void initializeViews(final String url, ViewHolder holder, final int position) {
         Picasso.with(context)
-                .load(object.getImgurl())
+                .load(url)
                 .error(R.mipmap.ic_default)
                 .fit()
                 .centerCrop()
                 .into(holder.imageView);
-        holder.tvName.setText(object.getName());
-        holder.tvTime.setText(object.getCreatedAt()+"");
     }
 
     protected class ViewHolder {
-        private TextView tvName;
-        private TextView tvTime;
-        private ImageView imageView;
+        private AutoHeightImageView imageView;
     }
 }
 

@@ -16,9 +16,9 @@ public class Goods implements Serializable {
     @Expose
     private ArrayList<GoodsItem> list;
     @Expose
-    private  int total ;
+    private int total;
     @Expose
-    private  int count ;
+    private int count;
 
     public void setList(ArrayList<GoodsItem> list) {
         this.list = list;
@@ -44,41 +44,71 @@ public class Goods implements Serializable {
         return count;
     }
 
-    public static class GoodsItem implements Serializable{
+    public static class GoodsItem implements Serializable {
         @Expose
-        private  int id;
+        private int id;
         @Expose
-        private  String title;
+        private String title;
         @Expose
-        private  String name;
+        private String name;
         @Expose
-        private  String age;
+        private String age;
         @Expose
-        private  String country;
+        private String country;
         @Expose
-        private  String province;
+        private String province;
         @Expose
-        private  String seePrice;
+        private String city;
         @Expose
-        private  String brief;
+        private String area;
         @Expose
-        private  String price;
+        private String seePrice;
         @Expose
-        private  String serviceTime;
+        private String brief;
         @Expose
-        private  String service;
+        private String price;
         @Expose
-        private  String describe;
+        private String serviceTime;
         @Expose
-        private  String qq;
+        private String service;
         @Expose
-        private  String tel;
+        private String describe;
         @Expose
-        private  String wechat;
+        private String qq;
         @Expose
-        private  String[] pictures;
+        private String face;
         @Expose
-        private  int visitors;
+        private String tel;
+        @Expose
+        private String wechat;
+        @Expose
+        private String[] pictures;
+        @Expose
+        private int visitors;
+
+        public String getFace() {
+            return face;
+        }
+
+        public void setFace(String face) {
+            this.face = face;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public String getArea() {
+            return area;
+        }
+
+        public void setCity(String city) {
+            this.city = city;
+        }
+
+        public void setArea(String area) {
+            this.area = area;
+        }
 
         public void setId(int id) {
             this.id = id;
@@ -216,7 +246,7 @@ public class Goods implements Serializable {
             return pictures;
         }
 
-        public GoodsItem(int id, String title, String[] pictures,int visitors,String price) {
+        public GoodsItem(int id, String title, String[] pictures, int visitors, String price) {
             this.id = id;
             this.title = title;
             this.pictures = pictures;

@@ -19,6 +19,8 @@
     <color name="fontWhite70">#c4d5e6</color>
     <color name="fontWhite12">#6d8db9</color>
 
+    <color name="backGray">#f2f2f2</color>
+
     <color name="circleYellow">#F5A623</color>
     <color name="circleGreen">#7ED321</color>
     <color name="circleGray">#26000000</color>
