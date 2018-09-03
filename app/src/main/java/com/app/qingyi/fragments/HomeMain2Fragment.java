@@ -12,12 +12,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.app.qingyi.Dialogs.SureDialog;
 import com.app.qingyi.Dialogs.UpdateAppDialog;
 import com.app.qingyi.R;
 import com.app.qingyi.activitys.LoginActivity;
+import com.app.qingyi.activitys.RechargeActivity;
 import com.app.qingyi.http.httputils.AllUrl;
 import com.app.qingyi.http.httputils.AsyncTaskManager;
 import com.app.qingyi.http.httputils.GsonUtils;
@@ -41,7 +43,7 @@ public class HomeMain2Fragment extends LazyFragment implements View.OnClickListe
     private AccountStatus mAccountStatus;
     private LoginConfig mLoginConfig;
     private AppUpdate appUpdate;
-    private TextView tvAmount,account;
+    private TextView tvAmount, account;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -53,7 +55,7 @@ public class HomeMain2Fragment extends LazyFragment implements View.OnClickListe
                     startActivity(new Intent(mContext, LoginActivity.class));
                     break;
                 case GlobleValue.SUCCESS2:
-                    if (mAccountStatus != null && mAccountStatus.getIsSuccess()) {
+                    if (mAccountStatus != null) {
                         tvAmount.setText(mAccountStatus.getBalance());
                         account.setText(mAccountStatus.getAccount());
                     }
@@ -78,21 +80,30 @@ public class HomeMain2Fragment extends LazyFragment implements View.OnClickListe
     }
 
     private void initView(View view) {
-        tvAmount = (TextView)view.findViewById(R.id.tvAmount);
-        account = (TextView)view.findViewById(R.id.account);
+        tvAmount = (TextView) view.findViewById(R.id.tvAmount);
+        account = (TextView) view.findViewById(R.id.account);
+        view.findViewById(R.id.layout001).setOnClickListener(this);
+        view.findViewById(R.id.layout002).setOnClickListener(this);
         account.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-//            case R.id.mLayout1:
+            case R.id.layout001:
+                Intent intent = new Intent(view.getContext(), RechargeActivity.class);
+                intent.putExtra("address",mAccountStatus.getAddress());
+                intent.putExtra("minEth",mAccountStatus.getMinEth());
+                intent.putExtra("ethToDo",mAccountStatus.getEthToDo());
+                startActivity(intent);
+                break;
+            case R.id.layout002:
 //                Intent intent = new Intent(view.getContext(), ResetPasswordActivity.class);
 //                startActivity(intent);
-//                break;
+                break;
             case R.id.account:
-                if(LoginConfig.getAuthorization() == null || LoginConfig.getAuthorization().equals("")){
-                    startActivity(new Intent(mContext,LoginActivity.class));
+                if (LoginConfig.getAuthorization() == null || LoginConfig.getAuthorization().equals("")) {
+                    startActivity(new Intent(mContext, LoginActivity.class));
                 }
                 break;
             default:
@@ -141,7 +152,7 @@ public class HomeMain2Fragment extends LazyFragment implements View.OnClickListe
     }
 
     private void getAccount() {
-        if(LoginConfig.getAuthorization() == null || LoginConfig.getAuthorization().equals("")){
+        if (LoginConfig.getAuthorization() == null || LoginConfig.getAuthorization().equals("")) {
             return;
         }
         String url = AllUrl.getInstance().getAccountUrl();
@@ -226,7 +237,7 @@ public class HomeMain2Fragment extends LazyFragment implements View.OnClickListe
                     dialog.dismiss();
                 }
                 if (GlobleValue.Downloading != true) {
-                    Utils.startAppUpdate(mContext, appUpdate.getDownLoad(), "mobipromoBox-" + appUpdate.getVersion() + ".apk");
+                    Utils.startAppUpdate(mContext, appUpdate.getDownLoad(), "do-" + appUpdate.getVersion() + ".apk");
                     return;
                 }
                 Snackbar.make(tvAmount, "正在下载安装包", Snackbar.LENGTH_LONG).show();

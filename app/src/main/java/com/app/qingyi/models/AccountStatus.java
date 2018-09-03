@@ -18,6 +18,10 @@ public class AccountStatus implements Serializable {
         private  String account;
         @Expose
         private  boolean isSuccess;
+        @Expose
+        private  String ethToDo;
+        @Expose
+        private  String minEth;
 
         public String getAddress() {
                 return address;
@@ -49,5 +53,29 @@ public class AccountStatus implements Serializable {
 
         public void setIsSuccess(boolean isSuccess) {
                 this.isSuccess = isSuccess;
+        }
+
+        public void setSuccess(boolean success) {
+                isSuccess = success;
+        }
+
+        public void setEthToDo(String ethToDo) {
+                this.ethToDo = ethToDo;
+        }
+
+        public void setMinEth(String minEth) {
+                this.minEth = minEth;
+        }
+
+        public boolean isSuccess() {
+                return isSuccess;
+        }
+
+        public String getEthToDo() {
+                return ethToDo;
+        }
+
+        public String getMinEth() {
+                return minEth;
         }
 }

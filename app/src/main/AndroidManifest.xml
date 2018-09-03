@@ -95,6 +95,9 @@
             android:name=".activitys.RegisterActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activitys.RechargeActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activitys.WebViewActivity"
             android:screenOrientation="portrait" />
     </application>

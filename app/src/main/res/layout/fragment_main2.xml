@@ -61,6 +61,7 @@
         android:orientation="horizontal">
 
         <com.app.qingyi.views.SquareRelativeLayout
+            android:id="@+id/layout001"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -90,6 +91,7 @@
             android:layout_height="25px" />
 
         <com.app.qingyi.views.SquareRelativeLayout
+            android:id="@+id/layout002"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
