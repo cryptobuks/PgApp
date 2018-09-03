@@ -35,7 +35,7 @@ import com.google.gson.JsonObject;
 /**
  * @author CJQ
  */
-public class HomeMain2Fragment extends Fragment implements View.OnClickListener {
+public class HomeMain2Fragment extends LazyFragment implements View.OnClickListener {
 
     private Context mContext;
     private AccountStatus mAccountStatus;
@@ -54,7 +54,7 @@ public class HomeMain2Fragment extends Fragment implements View.OnClickListener 
                     break;
                 case GlobleValue.SUCCESS2:
                     if (mAccountStatus != null && mAccountStatus.getIsSuccess()) {
-                        tvAmount.setText(mAccountStatus.getBalance()+"");
+                        tvAmount.setText(mAccountStatus.getBalance());
                         account.setText(mAccountStatus.getAccount());
                     }
                     break;
@@ -72,6 +72,7 @@ public class HomeMain2Fragment extends Fragment implements View.OnClickListener 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main2, null);
+        mContext = view.getContext();
         initView(view);
         return view;
     }
@@ -98,12 +99,6 @@ public class HomeMain2Fragment extends Fragment implements View.OnClickListener 
 
                 break;
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getAccount();
     }
 
     private void sureLogOut() {
@@ -237,5 +232,10 @@ public class HomeMain2Fragment extends Fragment implements View.OnClickListener 
                 Snackbar.make(tvAmount, "正在下载安装包", Snackbar.LENGTH_LONG).show();
             }
         }).create().show();
+    }
+
+    @Override
+    protected void lazyLoad() {
+        getAccount();
     }
 }

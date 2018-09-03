@@ -13,7 +13,7 @@ public class AccountStatus implements Serializable {
         @Expose
         private  String address;
         @Expose
-        private  double balance;
+        private  String balance;
         @Expose
         private  String account;
         @Expose
@@ -23,7 +23,7 @@ public class AccountStatus implements Serializable {
                 return address;
         }
 
-        public double getBalance() {
+        public String getBalance() {
                 return balance;
         }
 
@@ -39,7 +39,7 @@ public class AccountStatus implements Serializable {
                 this.address = address;
         }
 
-        public void setBalance(double balance) {
+        public void setBalance(String balance) {
                 this.balance = balance;
         }
 
