@@ -21,8 +21,8 @@ public class AllUrl {
         return Url.BASE_URL + "/account/login";
     }
 
-    public String getRegisterAccountUrl() {
-        return Url.BASE_URL + "/account/register";
+    public String getTitlesUrl() {
+        return Url.BASE_URL + "/get/citys/by/city/";
     }
 
     public String getLoginOutAccountUrl() {
@@ -38,8 +38,8 @@ public class AllUrl {
         return Url.BASE_URL + "/goods/list/" + curPage + "/" + limit;
     }
 
-    public String getGoodsByAreaUrl(String area, int curPage, int limit) {
-        return Url.BASE_URL + "/goods/list/by/area/" + area + "/" + curPage + "/" + limit;
+    public String getGoodsByAreaUrl(int curPage, int limit) {
+        return Url.BASE_URL + "/goods/list/by/area/" + curPage + "/" + limit;
     }
 
     public String get7days() {
