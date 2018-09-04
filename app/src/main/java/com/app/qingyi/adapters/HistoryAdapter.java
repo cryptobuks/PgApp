@@ -4,14 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.qingyi.R;
 import com.app.qingyi.models.Goods;
+import com.app.qingyi.views.AutoHeightImageView;
 import com.squareup.picasso.Picasso;
 import com.zhy.autolayout.utils.AutoUtils;
 
@@ -19,47 +18,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class GradViewAdapter extends BaseAdapter {
+public class HistoryAdapter extends BaseAdapter {
 
-    private List<Goods.GoodsItem> objects = new ArrayList<Goods.GoodsItem>();
+    private List<Goods.GoodsItem> allData = new ArrayList<>();
     @SuppressWarnings("unused")
     private Context context;
     private LayoutInflater layoutInflater;
 
-    public GradViewAdapter(Context context) {
+    public HistoryAdapter(Context context) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
     }
 
-    public GradViewAdapter(Context context, GridView mGridView, List<Goods.GoodsItem> objects) {
+    public HistoryAdapter(Context context, List<Goods.GoodsItem> objects) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
-        this.objects = objects;
+        this.allData = objects;
     }
 
     public void setObjects(List<Goods.GoodsItem> objects) {
-        this.objects = objects;
+        this.allData = objects;
         notifyDataSetChanged();
     }
-
-    public void addObjects(List<Goods.GoodsItem> objects) {
-        this.objects.addAll(objects);
-        notifyDataSetChanged();
-    }
-
-    public List<Goods.GoodsItem> getObjects() {
-        return objects;
-    }
-
 
     @Override
     public int getCount() {
-        return objects.size();
+        return allData.size();
     }
 
     @Override
     public Goods.GoodsItem getItem(int position) {
-        return objects.get(position);
+        return allData.get(position);
     }
 
     @Override
@@ -74,40 +63,45 @@ public class GradViewAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.gradview_list_item, parent, false);
+            convertView = layoutInflater.inflate(R.layout.history_list_item, parent, false);
             viewHolder = new ViewHolder();
-            viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
-            viewHolder.price = (TextView) convertView.findViewById(R.id.price);
-            viewHolder.clicks = (TextView) convertView.findViewById(R.id.clicks);
             viewHolder.imageView = (ImageView) convertView.findViewById(R.id.imageView);
+            viewHolder.buyPrice = (TextView) convertView.findViewById(R.id.buyPrice);
+            viewHolder.name = (TextView) convertView.findViewById(R.id.name);
+            viewHolder.age = (TextView) convertView.findViewById(R.id.age);
+            viewHolder.price = (TextView) convertView.findViewById(R.id.price);
+            viewHolder.area = (TextView) convertView.findViewById(R.id.area);
             convertView.setTag(viewHolder);
             AutoUtils.autoSize(convertView);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        initializeViews((Goods.GoodsItem) getItem(position), (ViewHolder) convertView.getTag(), position);
+        initializeViews(getItem(position), (ViewHolder) convertView.getTag(), position);
         return convertView;
     }
 
-    private void initializeViews(final Goods.GoodsItem object, ViewHolder holder, final int position) {
-        if (object.getPictures() != null && object.getPictures().length > 0) {
+    private void initializeViews(final Goods.GoodsItem item, ViewHolder holder, final int position) {
+        if (item.getPictures() != null && item.getPictures().length > 0) {
             Picasso.with(context)
-                    .load(object.getPictures()[0])
+                    .load(item.getPictures()[0])
                     .error(R.mipmap.ic_default)
                     .fit()
                     .into(holder.imageView);
         }
-
-        holder.tvTitle.setText(object.getTitle());
-        holder.price.setText(object.getPrice());
-        holder.clicks.setText(object.getVisitors() + "");
+        holder.buyPrice.setText(item.getSeePrice()+"DO");
+        holder.name.setText(item.getName());
+        holder.area.setText(item.getProvince()+item.getCity()+item.getArea());
+        holder.price.setText(item.getPrice());
+        holder.age.setText(item.getAge());
     }
 
     protected class ViewHolder {
-        private TextView tvTitle;
-        private TextView price;
-        private TextView clicks;
         private ImageView imageView;
+        private TextView buyPrice;
+        private TextView name;
+        private TextView age;
+        private TextView price;
+        private TextView area;
     }
 }
 

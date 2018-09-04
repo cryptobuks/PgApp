@@ -41,6 +41,9 @@ public class AllUrl {
     public String getDefailtGoodsUrl(int curPage, int limit) {
         return Url.BASE_URL + "/goods/list/" + curPage + "/" + limit;
     }
+    public String getHistoryGoodsUrl(int curPage, int limit) {
+        return Url.BASE_URL + "/goods/history/" + curPage + "/" + limit;
+    }
 
     public String getGoodsByAreaUrl(int curPage, int limit) {
         return Url.BASE_URL + "/goods/list/by/area/" + curPage + "/" + limit;

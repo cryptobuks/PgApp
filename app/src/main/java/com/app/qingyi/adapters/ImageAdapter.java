@@ -71,7 +71,6 @@ public class ImageAdapter extends BaseAdapter {
                 .load(url)
                 .error(R.mipmap.ic_default)
                 .fit()
-                .centerCrop()
                 .into(holder.imageView);
     }
 

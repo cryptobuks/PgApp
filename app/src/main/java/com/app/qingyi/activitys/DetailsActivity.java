@@ -57,7 +57,6 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
                                     .load(goodsItem.getPictures()[0])
                                     .error(R.mipmap.ic_default)
                                     .fit()
-                                    .centerCrop()
                                     .into(topImg);
                             setImgs();
                         }

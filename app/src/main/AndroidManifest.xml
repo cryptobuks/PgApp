@@ -106,7 +106,8 @@
             android:name=".activitys.CreateActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activitys.DetailsActivity" />
-        <activity android:name=".activitys.SeePrivateActivity"></activity>
+        <activity android:name=".activitys.SeePrivateActivity" />
+        <activity android:name=".activitys.HistoryActivity"></activity>
     </application>
 
 </manifest>

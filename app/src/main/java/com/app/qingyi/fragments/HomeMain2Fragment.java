@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.app.qingyi.Dialogs.SureDialog;
 import com.app.qingyi.Dialogs.UpdateAppDialog;
 import com.app.qingyi.R;
+import com.app.qingyi.activitys.HistoryActivity;
 import com.app.qingyi.activitys.LoginActivity;
 import com.app.qingyi.activitys.RechargeActivity;
 import com.app.qingyi.http.httputils.AllUrl;
@@ -67,6 +68,11 @@ public class HomeMain2Fragment extends LazyFragment implements View.OnClickListe
                         Snackbar.make(tvAmount, "当前已是最新版本", Snackbar.LENGTH_LONG).show();
                     }
                     break;
+                case GlobleValue.FAIL:
+                    tvAmount.setText("0");
+                    account.setText("未登录");
+                    logout.setVisibility(View.GONE);
+                    break;
             }
         }
     };
@@ -109,7 +115,7 @@ public class HomeMain2Fragment extends LazyFragment implements View.OnClickListe
                 break;
             case R.id.layout002:
                 if (mAccountStatus != null) {
-
+                    startActivity(new Intent(mContext,HistoryActivity.class));
                 }
                 break;
             case R.id.account:
@@ -181,13 +187,14 @@ public class HomeMain2Fragment extends LazyFragment implements View.OnClickListe
 
                         @Override
                         public void onFailed() {
+                            handler.sendEmptyMessage(GlobleValue.FAIL);
                         }
 
                         @Override
                         public void onComplete(BaseResponseBean bean) {
                             if (bean.isSuccess()) {
                                 analiData(bean);
-                            }
+                            }else handler.sendEmptyMessage(GlobleValue.FAIL);
                         }
 
                         private void analiData(BaseResponseBean bean) {
