@@ -1,18 +1,25 @@
 package com.app.qingyi.fragments;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.app.qingyi.R;
 import com.app.qingyi.activitys.DetailsActivity;
@@ -27,6 +34,7 @@ import com.app.qingyi.http.responsebeans.BaseResponseBean;
 import com.app.qingyi.http.responsebeans.RequestListener;
 import com.app.qingyi.models.Area;
 import com.app.qingyi.models.Goods;
+import com.app.qingyi.utils.ChooseCityUtil;
 import com.app.qingyi.utils.GlobleValue;
 import com.app.qingyi.utils.LoginConfig;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -35,6 +43,8 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import es.dmoral.toasty.Toasty;
 
 /**
  * 首页
@@ -45,11 +55,13 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
     private Context mContext;
     private TabLayout mTabLayout;
     private GridView mGridView;
+    private TextView tv_tit;
     private int curPage = 1;
     private int limit = 10;
     private String filter = "推荐";
-    private String city = "北京市";
+    private String city = "北京";
     private RefreshLayout refreshLayout;
+    private List<String> mTitleList = new ArrayList<String>();//页卡标题集合
     private List<Goods.GoodsItem> allData = new ArrayList<>();
     private GradViewAdapter mGradViewAdapter;
     private Handler handler = new Handler() {
@@ -68,18 +80,25 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
                     break;
                 case GlobleValue.SUCCESS3:
                     String favarate = "推荐";
-                    mTabLayout.addTab(mTabLayout.newTab().setText(favarate), true);
-                    for (String title : mTitleList) {
-                        mTabLayout.addTab(mTabLayout.newTab().setText(title), false);
-                    }
+                    filter = favarate;
+                    curPage = 1;
+                    mTabLayout.removeAllTabs();
                     mTitleList.add(0, favarate);
+                    for (String title : mTitleList) {
+                        if (title.equals(mTitleList.get(0))) {
+                            mTabLayout.addTab(mTabLayout.newTab().setText(title), true);
+                        } else
+                            mTabLayout.addTab(mTabLayout.newTab().setText(title), false);
+                    }
                     mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                         @Override
                         public void onTabSelected(TabLayout.Tab tab) {
-                            int position = tab.getPosition();
-                            filter = mTitleList.get(position);
-                            curPage = 1;
-                            getDefailtData(curPage);
+                            if (mTitleList.size() > 0) {
+                                int position = tab.getPosition();
+                                filter = mTitleList.get(position);
+                                curPage = 1;
+                                getDefailtData(curPage);
+                            }
                         }
 
                         @Override
@@ -92,6 +111,7 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
 
                         }
                     });
+                    getDefailtData(curPage);
                     break;
                 case GlobleValue.FAIL:
                     break;
@@ -108,11 +128,13 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
         return view;
     }
 
-    private List<String> mTitleList = new ArrayList<String>();//页卡标题集合
-
     private void initView(View view) {
         mTabLayout = (TabLayout) view.findViewById(R.id.tabs);
         mGridView = (GridView) view.findViewById(R.id.mGridView);
+        tv_tit = (TextView) view.findViewById(R.id.tv_tit);
+        view.findViewById(R.id.iv_one).setOnClickListener(this);
+        tv_tit.setOnClickListener(this);
+
         refreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout);
         mGradViewAdapter = new GradViewAdapter(mContext);
         mGradViewAdapter.setObjects(allData);
@@ -135,16 +157,11 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(mContext, DetailsActivity.class);
-                intent.putExtra("id",allData.get(i).getId());
+                intent.putExtra("id", allData.get(i).getId());
                 startActivity(intent);
             }
         });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getDefailtData(curPage);
+        tv_tit.setText(city);
     }
 
     private void getDefailtData(int page) {
@@ -152,7 +169,7 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
         JsonObjectBuilder builder = new JsonObjectBuilder();
         if (!filter.equals("推荐")) {
             url = AllUrl.getInstance().getGoodsByAreaUrl(page, limit);
-            builder.append("area",filter);
+            builder.append("area", filter);
         }
         if (HttpUtil.isNetworkAvailable(mContext)) {
             AsyncTaskManager.getInstance().StartHttp(new BaseRequestParm(mContext, url, builder.toString(),
@@ -214,6 +231,7 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
 
                         private void analiData(BaseResponseBean bean) {
                             List<Area> aLLAreas = GsonUtils.JsonArrayToListBean(GsonUtils.getRootJsonArray(bean.getResult()), Area.class);
+                            mTitleList.clear();
                             for (Area mArea : aLLAreas) {
                                 mTitleList.add(mArea.getArea());
                             }
@@ -228,9 +246,61 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-//            case R.id.tvAllbox:
-//                startActivity(new Intent(mContext, BoxManageActivity.class));
-//                break;
+            case R.id.tv_tit:
+            case R.id.iv_one:
+                selectCity();
+                break;
         }
+    }
+
+//    private void getLocation() {
+//        Location mLocation = beginLocatioon();
+//        if(mLocation != null){
+//            double Latitude = mLocation.getLatitude();
+//            double Longitude = mLocation.getLongitude();
+//        }
+//    }
+//
+//    public Location beginLocatioon() {
+//        LocationManager locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+//        String provider = judgeProvider(locationManager);
+//        //有位置提供器的情况
+//        if (provider != null) {
+//            //为了压制getLastKnownLocation方法的警告
+//            if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION)
+//                    != PackageManager.PERMISSION_GRANTED
+//                    && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION)
+//                    != PackageManager.PERMISSION_GRANTED) {
+//                return null;
+//            }
+//            return locationManager.getLastKnownLocation(provider);
+//        }
+//        return null;
+//    }
+//
+//    private String judgeProvider(LocationManager locationManager) {
+//        List<String> prodiverlist = locationManager.getProviders(true);
+//        if(prodiverlist.contains(LocationManager.NETWORK_PROVIDER)){
+//            return LocationManager.NETWORK_PROVIDER;//网络定位
+//        }else if(prodiverlist.contains(LocationManager.GPS_PROVIDER)) {
+//            return LocationManager.GPS_PROVIDER;//GPS定位
+//        }
+//        return null;
+//    }
+
+    private void selectCity() {
+        final ChooseCityUtil cityUtil = new ChooseCityUtil();
+        String difail = "北京-北京-昌平";
+        String[] oldCityArray = difail.split("-");//将TextView上的文本分割成数组 当做默认值
+        cityUtil.createDialog(mContext, oldCityArray, new ChooseCityUtil.ChooseCityInterface() {
+            @Override
+            public void sure(String[] newCityArray) {
+                //oldCityArray为传入的默认值 newCityArray为返回的结果
+                city = newCityArray[1];
+                tv_tit.setText(city);
+                getTitles();
+                Toasty.normal(mContext, newCityArray[0] + "-" + newCityArray[1] + "-" + newCityArray[2]).show();
+            }
+        });
     }
 }

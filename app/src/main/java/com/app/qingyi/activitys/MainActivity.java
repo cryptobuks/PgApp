@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +27,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.app.qingyi.Dialogs.UpdateAppDialog;
 import com.app.qingyi.R;
 import com.app.qingyi.adapters.TabFragmentPagerAdapter;

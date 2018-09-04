@@ -84,7 +84,7 @@ public class Goods implements Serializable {
         @Expose
         private String[] pictures;
         @Expose
-        private int visitors;
+        private String visitors;
 
         public String getFace() {
             return face;
@@ -174,11 +174,11 @@ public class Goods implements Serializable {
             this.pictures = pictures;
         }
 
-        public void setVisitors(int visitors) {
+        public void setVisitors(String visitors) {
             this.visitors = visitors;
         }
 
-        public int getVisitors() {
+        public String getVisitors() {
             return visitors;
         }
 
@@ -246,7 +246,7 @@ public class Goods implements Serializable {
             return pictures;
         }
 
-        public GoodsItem(int id, String title, String[] pictures, int visitors, String price) {
+        public GoodsItem(int id, String title, String[] pictures, String visitors, String price) {
             this.id = id;
             this.title = title;
             this.pictures = pictures;
