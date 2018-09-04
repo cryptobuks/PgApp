@@ -43,7 +43,7 @@ public class HomeMain2Fragment extends LazyFragment implements View.OnClickListe
     private AccountStatus mAccountStatus;
     private LoginConfig mLoginConfig;
     private AppUpdate appUpdate;
-    private TextView tvAmount, account;
+    private TextView tvAmount, account,logout;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -79,12 +79,19 @@ public class HomeMain2Fragment extends LazyFragment implements View.OnClickListe
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        lazyLoad();
+    }
+
     private void initView(View view) {
         tvAmount = (TextView) view.findViewById(R.id.tvAmount);
         account = (TextView) view.findViewById(R.id.account);
         view.findViewById(R.id.layout001).setOnClickListener(this);
         view.findViewById(R.id.layout002).setOnClickListener(this);
-        view.findViewById(R.id.logout).setOnClickListener(this);
+        logout = (TextView)view.findViewById(R.id.logout);
+        logout.setOnClickListener(this);
         account.setOnClickListener(this);
     }
 
@@ -92,14 +99,18 @@ public class HomeMain2Fragment extends LazyFragment implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.layout001:
-                Intent intent = new Intent(view.getContext(), RechargeActivity.class);
-                intent.putExtra("address",mAccountStatus.getAddress());
-                intent.putExtra("minEth",mAccountStatus.getMinEth());
-                intent.putExtra("ethToDo",mAccountStatus.getEthToDo());
-                startActivity(intent);
+                if (mAccountStatus != null) {
+                    Intent intent = new Intent(view.getContext(), RechargeActivity.class);
+                    intent.putExtra("address",mAccountStatus.getAddress());
+                    intent.putExtra("minEth",mAccountStatus.getMinEth());
+                    intent.putExtra("ethToDo",mAccountStatus.getEthToDo());
+                    startActivity(intent);
+                }
                 break;
             case R.id.layout002:
+                if (mAccountStatus != null) {
 
+                }
                 break;
             case R.id.account:
                 if (LoginConfig.getAuthorization() == null || LoginConfig.getAuthorization().equals("")) {
@@ -156,8 +167,12 @@ public class HomeMain2Fragment extends LazyFragment implements View.OnClickListe
 
     private void getAccount() {
         if (LoginConfig.getAuthorization() == null || LoginConfig.getAuthorization().equals("")) {
+            tvAmount.setText("0");
+            account.setText("未登录");
+            logout.setVisibility(View.GONE);
             return;
         }
+        logout.setVisibility(View.VISIBLE);
         String url = AllUrl.getInstance().getAccountUrl();
         if (HttpUtil.isNetworkAvailable(mContext)) {
             AsyncTaskManager.getInstance().StartHttp(new BaseRequestParm(mContext, url, null,

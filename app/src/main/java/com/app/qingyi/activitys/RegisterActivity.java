@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.qingyi.base.BaseApplication;
+import com.app.qingyi.models.MessageData;
 import com.google.gson.JsonObject;
 import com.app.qingyi.R;
 import com.app.qingyi.http.httputils.AllUrl;
@@ -31,21 +32,33 @@ import com.app.qingyi.utils.GlobleValue;
 public class RegisterActivity extends BaseActivity implements View.OnClickListener {
 
     private EditText mAccount;
-    private EditText mPassword, edtCode;
+    private MessageData mMessage;
+    private EditText mPassword, edtCode,mPassword2;
     private View mLoginFormView;
     private ImageView imgCode;
     private Bitmap bit;
     private Boolean isChecked = true;
-    private TextView reload,tvYZM,tvMM,tvZH;
+    private TextView reload,tvYZM,tvMM,tvZH,tvMMNo;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             hideDialog();
+            setInvisible();
             switch (msg.what) {
                 case GlobleValue.SUCCESS:
-                    mLoginConfig.setAccount(mAccount.getText().toString().trim());
-                    finish();
+                    if(mMessage.isSuccess()){
+                        Snackbar.make(mAccount,"注册成功",Snackbar.LENGTH_LONG).addCallback(new Snackbar.Callback(){
+                            @Override
+                            public void onDismissed(Snackbar transientBottomBar, int event) {
+                                super.onDismissed(transientBottomBar, event);
+                                mLoginConfig.setAccount(mAccount.getText().toString().trim());
+                                finish();
+                            }
+                        }).show();
+                    }else {
+                        Snackbar.make(mAccount,mMessage.getMessage(),Snackbar.LENGTH_LONG).show();
+                    }
                     break;
                 case 0x888:
                     if (bit != null) {
@@ -54,7 +67,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                     } else reload.setVisibility(View.VISIBLE);
                     break;
                 case GlobleValue.FAIL:
-                    Snackbar.make(mAccount,"请检查账户及密码是否正确",Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mAccount,"注册出现错误，请重试",Snackbar.LENGTH_LONG).show();
                     break;
                 case GlobleValue.FAIL2:
                     tvYZM.setVisibility(View.VISIBLE);
@@ -69,6 +82,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         setContentView(R.layout.activity_register);
         mAccount = (EditText) findViewById(R.id.account);
         mPassword = (EditText) findViewById(R.id.password);
+        mPassword2 = (EditText) findViewById(R.id.password2);
+
         edtCode = (EditText) findViewById(R.id.edtCode);
         mLoginFormView = findViewById(R.id.login_form);
         imgCode = (ImageView) findViewById(R.id.imgCode);
@@ -76,6 +91,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         tvZH = (TextView) findViewById(R.id.tvZH);
         tvMM = (TextView) findViewById(R.id.tvMM);
+        tvMMNo = (TextView) findViewById(R.id.tvMMNo);
         tvYZM = (TextView) findViewById(R.id.tvYZM);
         imgCode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,20 +139,24 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-    private void attemptLogin() {
-        tvZH.setVisibility(View.GONE);
-        tvMM.setVisibility(View.GONE);
-        tvYZM.setVisibility(View.GONE);
+    private void attemptRegister() {
+        setInvisible();
         String email = mAccount.getText().toString();
         String password = mPassword.getText().toString();
+        String password2 = mPassword2.getText().toString();
         String captchaCode = edtCode.getText().toString();
         if (TextUtils.isEmpty(email)) {
             tvZH.setVisibility(View.VISIBLE);
             return;
         }
 
-        if (TextUtils.isEmpty(password)) {
+        if (TextUtils.isEmpty(password) || password.length() < 6) {
             tvMM.setVisibility(View.VISIBLE);
+            return;
+        }
+
+        if (!password.equals(password2)) {
+            tvMMNo.setVisibility(View.VISIBLE);
             return;
         }
 
@@ -148,9 +168,15 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         doRegister(email, password, captchaCode);
     }
 
+    private void setInvisible(){
+        tvZH.setVisibility(View.GONE);
+        tvMM.setVisibility(View.GONE);
+        tvYZM.setVisibility(View.GONE);
+        tvMMNo.setVisibility(View.GONE);
+    }
     private void doRegister(final String name, String psw, String captchaCode) {
-        String date = "username=" + name + "&password=" + psw + "&grant_type=password" + "&captchaCode=" + captchaCode;
-        String url = AllUrl.getInstance().getLoginAccountUrl();
+        String date = "account=" + name + "&password=" + psw + "&grant_type=password" + "&captcha=" + captchaCode;
+        String url = AllUrl.getInstance().getRegisterUrl();
         if (HttpUtil.isNetworkAvailable(this)) {
             showDialog();
             AsyncTaskManager.getInstance().StartHttp(new BaseRequestParm(this, url, date,
@@ -177,19 +203,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     private void analiData(BaseResponseBean bean) {
         try {
-            // 数据解析
-            JsonObject json = GsonUtils.getRootJsonObject(bean.getResult());
-            if (json.has("access_token")) {
-                String token = GsonUtils.getKeyValue(json, "access_token").getAsString();
-                String refresh_token = GsonUtils.getKeyValue(json, "refresh_token").getAsString();
-                String expires_in = GsonUtils.getKeyValue(json, "expires_in").getAsString();// 有效时间
-                mLoginConfig.setAuthorization("Bearer " + token);
-                mLoginConfig.setReAuthorization(refresh_token);
-                Log.i("i", "获取token=" + token);
-                handler.sendEmptyMessage(GlobleValue.SUCCESS);
-            } else if(json.has("code") && GsonUtils.getKeyValue(json, "code").getAsString().equals("11000")){
-                handler.sendEmptyMessage(GlobleValue.FAIL2);
-            }else  handler.sendEmptyMessage(GlobleValue.FAIL);
+            mMessage = GsonUtils.JsonObjectToBean(GsonUtils.getRootJsonObject(bean.getResult()), MessageData.class);
+            handler.sendEmptyMessage(GlobleValue.SUCCESS);
         }catch (Exception e){
             handler.sendEmptyMessage(GlobleValue.FAIL);
         }
@@ -202,21 +217,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 finish();
                 break;
             case R.id.loginBtn:
-                attemptLogin();
+                attemptRegister();
                 break;
             case R.id.tv_info:
                 startActivity(new Intent(this, MainActivity.class));
-                break;
-            case R.id.seePassWord:
-                if(isChecked){
-                    isChecked = false;
-                    //选择状态 显示明文--设置为可见的密码
-                    mPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                }else {
-                    isChecked = true;
-                    //默认状态显示密码--设置文本 要一起写才能起作用  InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD
-                    mPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                }
                 break;
         }
     }

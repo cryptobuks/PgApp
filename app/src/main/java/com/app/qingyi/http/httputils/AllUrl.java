@@ -16,6 +16,10 @@ public class AllUrl {
         return mAllUrl;
     }
 
+    public String getRegisterUrl() {
+        return Url.BASE_URL + "/account/register";
+    }
+
     //登录账户
     public String getLoginAccountUrl() {
         return Url.BASE_URL + "/account/login";

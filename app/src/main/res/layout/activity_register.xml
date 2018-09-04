@@ -102,6 +102,15 @@
                     android:visibility="gone" />
             </RelativeLayout>
 
+            <TextView
+                android:id="@+id/tvMM"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/error_invalid_password"
+                android:textColor="@color/fontRed"
+                android:textSize="16sp"
+                android:visibility="gone" />
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -125,11 +134,11 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/tvMM"
+                android:id="@+id/tvMMNo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/error_invalid_password"
+                android:text="密码不一致"
                 android:textColor="@color/fontRed"
                 android:textSize="16sp"
                 android:visibility="gone" />
