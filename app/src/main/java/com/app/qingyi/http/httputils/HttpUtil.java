@@ -5,8 +5,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.webkit.MimeTypeMap;
+import android.widget.Toast;
 
+import com.android.internal.http.multipart.MultipartEntity;
 import com.app.qingyi.http.requestparams.BaseRequestParm;
+import com.app.qingyi.http.responsebeans.BaseResponseBean;
+import com.app.qingyi.http.responsebeans.RequestListener;
 import com.app.qingyi.utils.InternetUtil;
 import com.app.qingyi.utils.SystemLog;
 import com.app.qingyi.utils.Utils;
@@ -16,19 +20,38 @@ import com.app.qingyi.utils.Utils;
 //import org.apache.http.entity.mime.content.FileBody;
 //import org.apache.http.entity.mime.content.StringBody;
 
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Interceptor;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * @author cjq
@@ -177,11 +200,11 @@ public class HttpUtil {
     public static Bitmap getHttpBitmap(BaseRequestParm parm) {
         String url = parm.getUrl();
         URL myFileURL;
-        Bitmap bitmap=null;
-        try{
+        Bitmap bitmap = null;
+        try {
             myFileURL = new URL(url);
             //获得连接
-            HttpURLConnection conn=(HttpURLConnection)myFileURL.openConnection();
+            HttpURLConnection conn = (HttpURLConnection) myFileURL.openConnection();
             //设置超时时间为6000毫秒，conn.setConnectionTiem(0);表示没有时间限制
             conn.setConnectTimeout(6000);
             //连接设置获得数据流
@@ -202,134 +225,12 @@ public class HttpUtil {
             //关闭数据流
             is.close();
             return bitmap;
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    /**
-     * 检查软件是否有更新版本
-     *
-     * @return
-     * @throws Exception
-     */
-
-    // 解析 xml
-//    public static HashMap<String, String> parseXml(String path) throws Exception {
-//
-//        // URL url = new URL(path);
-//        // HttpURLConnection con = (HttpURLConnection) url.openConnection();
-//        // con.setConnectTimeout(10 * 1000);
-//        // con.setReadTimeout(10 * 1000);
-//        // InputStream stream = con.getInputStream();
-//        DefaultHttpClient client = new DefaultHttpClient();
-//        HttpUriRequest req = new HttpGet(path);
-//        HttpResponse resp = client.execute(req);
-//        HttpEntity con = resp.getEntity();
-//
-//        InputStream stream = con.getContent();
-//        BufferedReader br = new BufferedReader(new InputStreamReader(stream, "GBK"));
-//
-//        String xmlString = "";
-//        for (String temp = br.readLine(); temp != null; xmlString += temp, temp = br.readLine())
-//            ;
-//        Log.i("cccc====", xmlString);
-//        // 去除字符串中的换行符，制表符，回车符。
-//        // xmlString = xmlString.replaceAll("/n|/t|/r", "");
-//
-//        InputStream stream2 = new ByteArrayInputStream(xmlString.getBytes("UTF-8"));
-//
-//        // 实例化一个文档构建器工厂
-//        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-//        // 通过文档构建器工厂获取一个文档构建器
-//        DocumentBuilder builder = factory.newDocumentBuilder();
-//        // 通过文档通过文档构建器构建一个文档实例
-//
-//        Document document = builder.parse(stream2);
-//        // 获取XML文件根节点
-//        Element root = document.getDocumentElement();
-//        // 获得所有子节点
-//        NodeList childNodes = root.getChildNodes();
-//        HashMap<String, String> hashMap = new HashMap<String, String>();
-//        for (int j = 0; j < childNodes.getLength(); j++) {
-//            // 遍历子节点
-//            Node childNode = childNodes.item(j);
-//            if (childNode.getNodeType() == Node.ELEMENT_NODE) {
-//                Element childElement = (Element) childNode;
-//                // 版本号
-//                if ("version".equals(childElement.getNodeName())) {
-//                    hashMap.put("version", childElement.getFirstChild().getNodeValue());
-//                }
-//                // 软件名称
-//                else if (("name".equals(childElement.getNodeName()))) {
-//                    hashMap.put("name", childElement.getFirstChild().getNodeValue());
-//                }
-//                // 下载地址
-//                else if (("url".equals(childElement.getNodeName()))) {
-//                    hashMap.put("url", childElement.getFirstChild().getNodeValue());
-//                }
-//                // 更新信息
-//                else if (("info".equals(childElement.getNodeName()))) {
-//
-//                    hashMap.put("info", childElement.getFirstChild().getNodeValue());
-//                }
-//            }
-//        }
-//        return hashMap;
-//    }
-
-    // 下载APK
-//    public static void downFile(final String url, final Handler handler, final String name) {
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                HttpClient client = new DefaultHttpClient();
-//                HttpGet get = new HttpGet(url);
-//                HttpResponse response;
-//                try {
-//                    response = client.execute(get);
-//                    HttpEntity entity = response.getEntity();
-//                    long length = entity.getContentLength();
-//                    InputStream is = entity.getContent();
-//                    FileOutputStream fileOutputStream = null;
-//                    if (is != null) {
-//                        File dir = Environment.getExternalStorageDirectory();
-//                        File file = new File(dir, name);
-//                        fileOutputStream = new FileOutputStream(file);
-//                        byte[] buf = new byte[1024];
-//                        int ch = -1;
-//                        long length2 = 0;
-//                        while ((ch = is.read(buf)) != -1) {
-//                            fileOutputStream.write(buf, 0, ch);
-//                            length2 = length2 + ch;
-//                            // 下载进度消息
-//                            String pd = (length2 * 100 / length) + "%";
-//                            PushMsg msg = handler.obtainMessage();
-//                            msg.what = Constants.CHECKINFO;
-//                            msg.obj = pd;
-//                            handler.sendMessage(msg);
-//                        }
-//                        fileOutputStream.flush();
-//                    }
-//                    // 关闭流
-//                    if (fileOutputStream != null) {
-//                        fileOutputStream.close();
-//                    }
-//                    // 发送下载成功消息
-//                    PushMsg msg = handler.obtainMessage();
-//                    msg.what = Constants.UPDATESUCSS;
-//                    handler.sendMessage(msg);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                    // 下载失败发送消息
-//                    PushMsg msg = handler.obtainMessage();
-//                    msg.what = Constants.UPDATEFAIL;
-//                    handler.sendMessage(msg);
-//                }
-//            }
-//        }.start();
-//    }
     public static String getMimeType(String url) {
         String type = null;
         String extension = MimeTypeMap.getFileExtensionFromUrl(url);
@@ -343,87 +244,54 @@ public class HttpUtil {
         return type;
     }
 
-//    // 上传头像/ 附件
-//    public static String postMethod(String mUrl, String authorization, HashMap<String, String> textMap,
-//                                    List<String> imageUrlList, String filePath) {
-//        String type = getMimeType(filePath);
-//        System.out.println("type：" + type);
-//        try {
-//            // 链接超时，请求超时设置
-//            BasicHttpParams httpParams = new BasicHttpParams();
-//            HttpConnectionParams.setConnectionTimeout(httpParams, 10 * 1000);
-//            HttpConnectionParams.setSoTimeout(httpParams, 10 * 1000);
-//
-//            // 请求参数设置
-//            HttpClient client = new DefaultHttpClient(httpParams);
-//            HttpPost post = new HttpPost(mUrl);
-//            post.setHeader("authorization", authorization);
-//            post.setHeader("EBON-ENCRYPT", "0");// 头信息，0不加密，1加密
-//            MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null,
-//                    Charset.forName("UTF-8"));// 编码格式 必须这里设定
-//            // 上传 文本， 转换编码为utf-8 其中"text" 为字段名，
-//            // 后边new StringBody(text,
-//            // Charset.forName(CHARSET))为参数值，其实就是正常的值转换成utf-8的编码格式
-//            if (textMap != null && !textMap.equals("")) {
-//                Iterator iter = textMap.entrySet().iterator();
-//                while (iter.hasNext()) {
-//                    Map.Entry entry = (Map.Entry) iter.next();
-//                    String key = entry.getKey().toString();
-//                    String val = entry.getValue().toString();
-//                    entity.addPart(key, new StringBody(val, Charset.forName("UTF-8")));
-//                }
-//                // 上传多个文本可以在此处添加上边代码，修改字段和值即可
-//            }
-//            if (filePath != null && !filePath.equals("")) {
-//                // 上传文件
-//                entity.addPart("file", new FileBody(new File(filePath), getMimeType(filePath), "UTF-8"));
-//            }
-//            if (imageUrlList != null) {
-//                String[] imagePath = new String[imageUrlList.size()];
-//                int size = imageUrlList.size();
-//                for (int i = 0; i < size; i++) {
-//                    imagePath[i] = imageUrlList.get(i);
-//                }
-//                if (imagePath != null && imagePath.length > 0) {
-//                    // 上传图片
-//                    for (String p : imagePath) {
-//                        entity.addPart("avatar", new FileBody(new File(p), getMimeType(p), "UTF-8"));
-//                    }
-//                }
-//
-//            }
-//
-//            post.setEntity(entity);
-//            HttpResponse resp = client.execute(post);
-//            // 获取回调值
-//            // System.out.println("Response:"
-//            // + EntityUtils.toString(resp.getEntity()));
-//            // System.out.println("StatusCode:"
-//            // + resp.getStatusLine().getStatusCode());
-//            // String Response = EntityUtils.toString(resp.getEntity());
-//            int code = resp.getStatusLine().getStatusCode();
-//            if (code == 200) {
-//                InputStream dd = resp.getEntity().getContent();
-//                String str = Utils.InputStreamTOString(dd);
-//                return str;
-//            } else if (code == 401) {
-//                return "401";// 登录失效
-//            } else {
-//                return null;
-//            }
-//        } catch (Exception e) {
-//            System.out.println(e.toString());
-//            return null;
-//        }
-//    }
+    public static String uploadFile(final BaseRequestParm parm,final RequestListener<BaseResponseBean> listener) {
+        try {
+            final OkHttpClient client = new OkHttpClient.Builder()
+                    .addInterceptor(new Interceptor() {
+                        @Override
+                        public Response intercept(Chain chain) throws IOException {
+                            Request request = chain.request()
+                                    .newBuilder()
+                                    .addHeader("Authorization", parm.getAuthorization())
+                                    .addHeader("apiversion", Utils.getVerCode(parm.getContext()) + "android")
+                                    .addHeader("User-Agent", "CAN-Wallet-" + Utils.getVerName(parm.getContext()))
+                                    .build();
+                            return chain.proceed(request);
+                        }
 
-//    public static void start(Context context, String fileUrl, String name) {
-//        Intent downloadIntent = new Intent(context, DownloadFileService.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putString("url", fileUrl);
-//        bundle.putString("fileName", name);
-//        downloadIntent.putExtras(bundle);
-//        context.startService(downloadIntent);
-//        Constants.Downloading = true;
-//    }
+                    })
+                    .build();
+            File file = new File(parm.getFilePath());
+            MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+
+            MediaType MEDIA_TYPE_PNG = MediaType.parse(getMimeType(parm.getFilePath()));
+
+            builder.addFormDataPart("avatar", file.getName(), RequestBody.create(MEDIA_TYPE_PNG, file));
+
+            MultipartBody requestBody = builder.build();
+            //构建请求
+            final Request request = new Request.Builder()
+                    .url(parm.getUrl())//地址
+                    .post(requestBody)//添加请求体
+                    .build();
+
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    System.out.println("上传失败:e.getLocalizedMessage() = " + e.getLocalizedMessage());
+                    listener.onFailed();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String back = response.body().string();
+                    listener.onComplete(new BaseResponseBean(back));
+                }
+            });
+
+        } catch (Exception e) {
+            return null;
+        }
+        return null;
+    }
 }

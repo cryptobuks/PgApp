@@ -16,7 +16,6 @@ public class BaseRequestParm implements RequestParam {
     private String ContentType;// 文本类型
     private String Authorization;// 认证码 authtoken
     private String request;// 请求方式
-    private List<String> imageUrlList;// 图片
     private HashMap<String, String> textMap;// 文本 map类型
     private boolean isEncryption = false;// 是否加密
     private byte[] jsonData2;
@@ -117,18 +116,6 @@ public class BaseRequestParm implements RequestParam {
         this.url = url;
     }
 
-//    public BaseRequestParm(String url, HashMap<String, String> textMap, String Authorization, List<String> imageUrlList,
-//                           String filePath) {
-//        this.url = url;
-//        this.textMap = textMap;
-//        this.ContentType = ContentType;
-//        this.request = request;
-//        this.Authorization = Authorization;
-//        this.imageUrlList = imageUrlList;
-//        this.filePath = filePath;
-//        this.request = null;
-//    }
-
     public BaseRequestParm(Context context, String url, String jsonData, String ContentType, String request, String Authorization) {
         this.url = url;
         this.jsonData = jsonData;
@@ -138,26 +125,16 @@ public class BaseRequestParm implements RequestParam {
         this.context = context;
     }
 
-//    public BaseRequestParm(String url, byte[] jsonData, String ContentType, String request, String Authorization) {
-//        this.url = url;
-//        this.jsonData2 = jsonData;
-//        this.jsonData = new String(jsonData);
-//        this.ContentType = ContentType;
-//        this.request = request;
-//        this.Authorization = Authorization;
-//    }
+    public BaseRequestParm(Context context, String url,String filePath, String Authorization) {
+        this.url = url;
+        this.filePath = filePath;
+        this.Authorization = Authorization;
+        this.context = context;
+    }
 
     public List<NameValuePair> getParams() {
 
         return null;
-    }
-
-    public List<String> getImageUrlList() {
-        return imageUrlList;
-    }
-
-    public void setImageUrlList(List<String> imageUrlList) {
-        this.imageUrlList = imageUrlList;
     }
 
     public String getUrl() {

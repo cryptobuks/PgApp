@@ -124,6 +124,25 @@ public class AsyncTaskManager {
         return new BaseResponseBean(result);
     }
 
+    public void StartHttpUpload(final BaseRequestParm parms, final RequestListener<BaseResponseBean> listener) {
+        mPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                HttpUtil.uploadFile(parms,new RequestListener<BaseResponseBean>(){
+                    @Override
+                    public void onComplete(BaseResponseBean bean) {
+                        listener.onComplete(bean);
+                    }
+
+                    @Override
+                    public void onFailed() {
+                        listener.onFailed();
+                    }
+                });
+            }
+        });
+    }
+
     private BaseResponseBean getResponseBitmap(BaseRequestParm parms) {
         Bitmap bitmap = HttpUtil.getHttpBitmap(parms);
         BaseResponseBean base = new BaseResponseBean("");

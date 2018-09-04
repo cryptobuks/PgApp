@@ -15,6 +15,8 @@ public class MessageData implements Serializable {
     @Expose
     private String code;
     @Expose
+    private String filePath;
+    @Expose
     private boolean isSuccess;
 
     public String getMessage() {
@@ -39,5 +41,14 @@ public class MessageData implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public String getFilePath() {
+        return filePath;
+
     }
 }

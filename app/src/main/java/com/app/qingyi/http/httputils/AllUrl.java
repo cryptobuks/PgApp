@@ -74,4 +74,7 @@ public class AllUrl {
     public String getAdvertisementUrl() {
         return Url.BASE_URL + "/manage/advertisement/getFirstPageAd";
     }
+    public String getfileuploadUrl() {
+        return Url.BASE_URL + "/file/upload";
+    }
 }
