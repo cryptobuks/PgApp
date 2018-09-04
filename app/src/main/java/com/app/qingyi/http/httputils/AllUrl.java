@@ -26,7 +26,7 @@ public class AllUrl {
     }
 
     public String getLoginOutAccountUrl() {
-        return Url.BASE_URL + "/token/logout";
+        return Url.BASE_URL + "/account/loginout";
     }
 
     //刷新token

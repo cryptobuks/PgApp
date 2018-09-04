@@ -19,6 +19,16 @@
             android:text="账户"
             android:textColor="@android:color/white"
             android:textSize="54px" />
+        <TextView
+            android:id="@+id/logout"
+            android:layout_width="wrap_content"
+            android:layout_height="154px"
+            android:layout_marginRight="45px"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:text="退出"
+            android:textColor="@android:color/white"
+            android:textSize="54px" />
 
         <TextView
             android:id="@+id/account"

@@ -84,6 +84,7 @@ public class HomeMain2Fragment extends LazyFragment implements View.OnClickListe
         account = (TextView) view.findViewById(R.id.account);
         view.findViewById(R.id.layout001).setOnClickListener(this);
         view.findViewById(R.id.layout002).setOnClickListener(this);
+        view.findViewById(R.id.logout).setOnClickListener(this);
         account.setOnClickListener(this);
     }
 
@@ -98,13 +99,15 @@ public class HomeMain2Fragment extends LazyFragment implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.layout002:
-//                Intent intent = new Intent(view.getContext(), ResetPasswordActivity.class);
-//                startActivity(intent);
+
                 break;
             case R.id.account:
                 if (LoginConfig.getAuthorization() == null || LoginConfig.getAuthorization().equals("")) {
                     startActivity(new Intent(mContext, LoginActivity.class));
                 }
+                break;
+            case R.id.logout:
+                sureLogOut();
                 break;
             default:
 
