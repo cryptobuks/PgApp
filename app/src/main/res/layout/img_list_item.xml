@@ -8,12 +8,13 @@
 
     <com.app.qingyi.views.AutoHeightImageView
         android:id="@+id/imageView"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         android:layout_marginTop="20px"
         android:layout_marginBottom="20px"
         android:layout_marginRight="30px"
         android:layout_marginLeft="30px"
+        android:adjustViewBounds="true"
         android:layout_width="match_parent"
-        android:layout_height="1400px" />
+        android:layout_height="40dp" />
 
 </LinearLayout>

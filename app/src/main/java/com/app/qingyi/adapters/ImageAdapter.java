@@ -71,7 +71,6 @@ public class ImageAdapter extends BaseAdapter {
         Picasso.with(context)
                 .load(Utils.getRightUrl(url))
                 .error(R.mipmap.ic_default)
-                .fit()
                 .into(holder.imageView);
     }
 

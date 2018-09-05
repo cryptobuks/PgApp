@@ -32,11 +32,11 @@ public class AutoHeightImageView extends ImageView {
             float scale = (float)width/height;
 
             //强制根据图片原有比例，重新计算ImageView显示区域宽度
-            int heightMeasure = MeasureSpec.getSize(heightMeasureSpec);
-            int widthMeasure = (int)(heightMeasure * scale);
+            int widthMeasure = MeasureSpec.getSize(widthMeasureSpec);
+            int heightMeasure = (int)(widthMeasure / scale);
 
             //并设置为MeasureSpec.EXACTLY精确模式保证之后的super.onMeasure()不再调整
-            widthMeasureSpec = MeasureSpec.makeMeasureSpec(widthMeasure, MeasureSpec.EXACTLY);
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(heightMeasure, MeasureSpec.EXACTLY);
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
