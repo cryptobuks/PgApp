@@ -23,6 +23,8 @@ import com.app.qingyi.http.responsebeans.RequestListener;
 import com.app.qingyi.models.Goods;
 import com.app.qingyi.utils.GlobleValue;
 import com.app.qingyi.utils.LoginConfig;
+import com.app.qingyi.utils.Utils;
+import com.bumptech.glide.util.Util;
 import com.squareup.picasso.Picasso;
 
 import es.dmoral.toasty.Toasty;
@@ -43,7 +45,7 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
                 case GlobleValue.SUCCESS:
                     if (goodsItem != null) {
                         service.setText(goodsItem.getService());
-                        face.setText(goodsItem.getFace());
+                        face.setText(goodsItem.getBrief());
                         describe.setText(goodsItem.getDescribe());
 
                         buy.setText("查看联系方式： "+goodsItem.getSeePrice()+" DO");
@@ -54,7 +56,7 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
                         area.setText(goodsItem.getProvince() + goodsItem.getCity() + goodsItem.getArea());
                         if (goodsItem.getPictures() != null && goodsItem.getPictures().length > 0) {
                             Picasso.with(DetailsActivity.this)
-                                    .load(goodsItem.getPictures()[0])
+                                    .load(Utils.getRightUrl(goodsItem.getPictures()[0]))
                                     .error(R.mipmap.ic_default)
                                     .fit()
                                     .into(topImg);

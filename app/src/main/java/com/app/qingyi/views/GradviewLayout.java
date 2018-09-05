@@ -19,7 +19,7 @@ public class GradviewLayout extends RelativeLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, widthMeasureSpec / 10 * 13);
+        super.onMeasure(widthMeasureSpec, (int)(widthMeasureSpec+130));
 //        重写此方法后默认调用父类的onMeasure方法,分别将宽度测量空间与高度测量空间传入
 //        super.onMeasure(widthMeasureSpec, heightMeasureSpec);/
     }

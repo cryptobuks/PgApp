@@ -253,41 +253,6 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
         }
     }
 
-//    private void getLocation() {
-//        Location mLocation = beginLocatioon();
-//        if(mLocation != null){
-//            double Latitude = mLocation.getLatitude();
-//            double Longitude = mLocation.getLongitude();
-//        }
-//    }
-//
-//    public Location beginLocatioon() {
-//        LocationManager locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-//        String provider = judgeProvider(locationManager);
-//        //有位置提供器的情况
-//        if (provider != null) {
-//            //为了压制getLastKnownLocation方法的警告
-//            if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION)
-//                    != PackageManager.PERMISSION_GRANTED
-//                    && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION)
-//                    != PackageManager.PERMISSION_GRANTED) {
-//                return null;
-//            }
-//            return locationManager.getLastKnownLocation(provider);
-//        }
-//        return null;
-//    }
-//
-//    private String judgeProvider(LocationManager locationManager) {
-//        List<String> prodiverlist = locationManager.getProviders(true);
-//        if(prodiverlist.contains(LocationManager.NETWORK_PROVIDER)){
-//            return LocationManager.NETWORK_PROVIDER;//网络定位
-//        }else if(prodiverlist.contains(LocationManager.GPS_PROVIDER)) {
-//            return LocationManager.GPS_PROVIDER;//GPS定位
-//        }
-//        return null;
-//    }
-
     private void selectCity() {
         final ChooseCityUtil cityUtil = new ChooseCityUtil();
         String difail = "北京-北京-昌平";

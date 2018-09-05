@@ -41,6 +41,7 @@ public class AllUrl {
     public String getDefailtGoodsUrl(int curPage, int limit) {
         return Url.BASE_URL + "/goods/list/" + curPage + "/" + limit;
     }
+
     public String getHistoryGoodsUrl(int curPage, int limit) {
         return Url.BASE_URL + "/goods/history/" + curPage + "/" + limit;
     }
@@ -62,19 +63,26 @@ public class AllUrl {
     }
 
     public String getGoodsDetailsUrl(int id) {
-        return Url.BASE_URL + "/goods/list/item/details/"+id;
+        return Url.BASE_URL + "/goods/list/item/details/" + id;
     }
+
     public String getGoodsPrivateUrl(int id) {
-        return Url.BASE_URL + "/goods/list/item/private/"+id;
+        return Url.BASE_URL + "/goods/list/item/private/" + id;
     }
+
     public String getGoodsPrivateByPayUrl(int id) {
-        return Url.BASE_URL + "/goods/list/item/private/bybuy/"+id;
+        return Url.BASE_URL + "/goods/list/item/private/bybuy/" + id;
     }
 
     public String getAdvertisementUrl() {
         return Url.BASE_URL + "/manage/advertisement/getFirstPageAd";
     }
+
     public String getfileuploadUrl() {
         return Url.BASE_URL + "/file/upload";
+    }
+
+    public String getGoodsUploadUrl() {
+        return Url.BASE_URL + "/goods/create";
     }
 }

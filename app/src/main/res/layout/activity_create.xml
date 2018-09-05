@@ -36,7 +36,7 @@
                     android:textSize="13sp" />
 
                 <EditText
-                    android:id="@+id/account"
+                    android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -54,7 +54,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tvZH"
+                android:id="@+id/titleLimit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20px"
@@ -62,7 +62,7 @@
                 android:text="字数超过限制"
                 android:textColor="@color/red"
                 android:textSize="14sp"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -98,6 +98,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/nameLimit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20px"
@@ -105,7 +106,7 @@
                 android:text="不能为空"
                 android:textColor="@color/red"
                 android:textSize="14sp"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -130,7 +131,7 @@
                     android:background="@drawable/et_bg_blue"
                     android:gravity="center_vertical"
                     android:hint="年龄"
-                    android:inputType="text"
+                    android:inputType="number"
                     android:maxLines="1"
                     android:paddingLeft="45px"
                     android:paddingTop="45px"
@@ -141,6 +142,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/ageLimit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20px"
@@ -148,7 +150,7 @@
                 android:text="不能为空"
                 android:textColor="@color/red"
                 android:textSize="14sp"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -167,6 +169,7 @@
                     android:textSize="13sp" />
 
                 <EditText
+                    android:id="@+id/face"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -184,6 +187,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/faceLimit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20px"
@@ -191,7 +195,7 @@
                 android:text="不能为空"
                 android:textColor="@color/mainColor"
                 android:textSize="14sp"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -199,15 +203,18 @@
                 android:background="@drawable/editinput_layer_style"
                 android:orientation="horizontal"
                 android:paddingBottom="60px"
+                android:layout_marginTop="45px"
                 android:paddingLeft="45px"
                 android:paddingRight="45px"
                 android:paddingTop="60px">
 
                 <EditText
+                    android:id="@+id/price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/edittext_bg_selector_search"
+                    android:inputType="numberDecimal"
                     android:textSize="15sp" />
 
                 <TextView
@@ -217,6 +224,16 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/priceLimit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20px"
+                android:paddingLeft="45px"
+                android:text="不能为空"
+                android:textColor="@color/mainColor"
+                android:textSize="14sp"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -258,10 +275,12 @@
                     android:background="@drawable/editinput_layer_style">
 
                     <EditText
+                        android:id="@+id/qq"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:background="@drawable/edittext_bg_selector_search" />
+                        android:background="@drawable/edittext_bg_selector_search"
+                        android:inputType="text" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -306,10 +325,12 @@
                     android:background="@drawable/editinput_layer_style">
 
                     <EditText
+                        android:id="@+id/wechat"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:background="@drawable/edittext_bg_selector_search" />
+                        android:background="@drawable/edittext_bg_selector_search"
+                        android:inputType="text" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -344,6 +365,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tvtel"
                         android:layout_marginLeft="45px"
+                        android:inputType="number"
                         android:text="tel"
                         android:textSize="17sp" />
                 </RelativeLayout>
@@ -354,6 +376,8 @@
                     android:background="@drawable/editinput_layer_style">
 
                     <EditText
+                        android:id="@+id/tel"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -362,11 +386,24 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/telLimit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20px"
+                android:paddingLeft="45px"
+                android:text="至少一种联系方式"
+                android:textColor="@color/mainColor"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
             <LinearLayout
+                android:id="@+id/layoutCity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="60px"
                 android:background="@drawable/editinput_layer_style"
+                android:onClick="onClick"
                 android:orientation="vertical">
 
                 <TextView
@@ -378,6 +415,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/city"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -386,6 +424,7 @@
                     android:hint="城市"
                     android:inputType="text"
                     android:maxLines="1"
+                    android:onClick="onClick"
                     android:paddingLeft="45px"
                     android:paddingTop="45px"
                     android:singleLine="true"
@@ -395,6 +434,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/cityLimit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20px"
@@ -402,7 +442,7 @@
                 android:text="不能为空"
                 android:textColor="@color/red"
                 android:textSize="14sp"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -420,6 +460,7 @@
                     android:textSize="13sp" />
 
                 <EditText
+                    android:id="@+id/service"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -437,6 +478,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/serviceLimit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20px"
@@ -444,7 +486,7 @@
                 android:text="不能为空"
                 android:textColor="@color/red"
                 android:textSize="14sp"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -462,26 +504,28 @@
                     android:textSize="13sp" />
 
                 <EditText
+                    android:id="@+id/details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/et_bg_gery"
-                    android:hint="纵情细节"
-                    android:paddingLeft="45px"
-                    android:paddingTop="45px"
-                    android:singleLine="true"
                     android:enabled="true"
                     android:gravity="top"
-                    android:inputType="textMultiLine"
-                    android:minLines="8"
+                    android:hint="纵情细节"
+                    android:inputType="text"
                     android:maxLines="10"
+                    android:minLines="8"
+                    android:paddingLeft="45px"
+                    android:paddingTop="45px"
                     android:scrollbars="vertical"
+                    android:singleLine="true"
                     android:textColorHint="@color/black"
                     android:textSize="16sp" />
 
             </LinearLayout>
 
             <TextView
+                android:id="@+id/detailsLimit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20px"
@@ -489,7 +533,7 @@
                 android:text="不能为空"
                 android:textColor="@color/red"
                 android:textSize="14sp"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -507,13 +551,14 @@
                     android:textSize="13sp" />
 
                 <EditText
+                    android:id="@+id/seePrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/et_bg_gery"
                     android:gravity="center_vertical"
                     android:hint="他人观看需要的DO价"
-                    android:inputType="text"
+                    android:inputType="numberDecimal"
                     android:maxLines="1"
                     android:paddingLeft="45px"
                     android:paddingTop="45px"
@@ -524,6 +569,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/seePriceLimit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20px"
@@ -531,31 +577,40 @@
                 android:text="不能为空"
                 android:textColor="@color/red"
                 android:textSize="14sp"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
-            <RelativeLayout
+            <com.app.qingyi.views.GradViewForScrollView
+                android:id="@+id/mGridView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp">
-
-                <ImageView
-                    android:id="@+id/imgSelect"
-                    android:layout_width="104dp"
-                    android:layout_height="104dp"
-                    android:onClick="onClick"
-                    android:layout_marginLeft="16dp"
-                    android:background="@color/mainColor" />
-            </RelativeLayout>
-
+                android:columnWidth="150dp"
+                android:divider="@null"
+                android:horizontalSpacing="8dp"
+                android:numColumns="4"
+                android:layout_marginTop="60px"
+                android:padding="8dp"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="12dp" />
+            <TextView
+                android:id="@+id/allImageLimit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20px"
+                android:paddingLeft="45px"
+                android:text="不能为空"
+                android:textColor="@color/red"
+                android:textSize="14sp"
+                android:visibility="gone" />
             <Button
                 android:id="@+id/id_add_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="32dp"
-                android:layout_marginBottom="32dp"
                 android:background="@drawable/layout_back_blue"
+                android:onClick="onClick"
                 android:text="发 布"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
