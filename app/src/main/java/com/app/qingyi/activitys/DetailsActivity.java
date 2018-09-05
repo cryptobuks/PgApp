@@ -32,7 +32,7 @@ import es.dmoral.toasty.Toasty;
 public class DetailsActivity extends BaseActivity implements View.OnClickListener {
 
     private Goods.GoodsItem goodsItem;
-    private TextView name, area, price, age, face, describe, service,buy;
+    private TextView name, area, price, age, face, describe, service,buy,like;
     private ImageView topImg;
     private ScrollView mScrollView;
     private ListView mListView;
@@ -49,7 +49,7 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
                         describe.setText(goodsItem.getDescribe());
 
                         buy.setText("查看联系方式： "+goodsItem.getSeePrice()+" DO");
-
+                        like.setText(goodsItem.getVisitors() + "");
                         name.setText(goodsItem.getName());
                         age.setText(goodsItem.getAge());
                         price.setText(goodsItem.getPrice());
@@ -84,6 +84,8 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
         area = (TextView) findViewById(R.id.area);
         price = (TextView) findViewById(R.id.price);
         age = (TextView) findViewById(R.id.age);
+
+        like = (TextView) findViewById(R.id.like);
 
         describe = (TextView) findViewById(R.id.describe);
         service = (TextView) findViewById(R.id.service);
