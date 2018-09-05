@@ -61,7 +61,7 @@ public class SeePrivateActivity extends BaseActivity implements View.OnClickList
                         buy.setText("已支付： "+mPayStatus.getDo3Fei()+" DO");
                         buy.setOnClickListener(null);
                     }else {
-                        Snackbar.make(wechat, "支付失败，"+mPayStatus.getMessage(), Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(wechat, "支付失败，"+mPayStatusByPay.getMessage(), Snackbar.LENGTH_LONG).show();
                     }
                     break;
 

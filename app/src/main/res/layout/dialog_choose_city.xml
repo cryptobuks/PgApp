@@ -37,6 +37,8 @@
                 android:id="@+id/npCity"
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -83,7 +85,10 @@
                 android:text="取消"
                 android:textColor="#656565"
                 android:textSize="18sp" />
-
+            <View
+                android:layout_width="0.1dp"
+                android:layout_height="match_parent"
+                android:background="#EEEEEE"/>
             <TextView
                 android:id="@+id/tvSure"
                 android:layout_width="0dp"
