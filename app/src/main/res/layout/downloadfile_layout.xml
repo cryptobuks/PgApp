@@ -12,7 +12,7 @@
         android:layout_height="40dp"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="10dp"
-        android:background="@mipmap/ic_app"
+        android:background="@mipmap/app"
         android:scaleType="center" />
 
     <LinearLayout

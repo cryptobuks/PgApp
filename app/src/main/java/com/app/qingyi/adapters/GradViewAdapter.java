@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.app.qingyi.R;
 import com.app.qingyi.models.Goods;
+import com.app.qingyi.utils.Utils;
 import com.squareup.picasso.Picasso;
 import com.zhy.autolayout.utils.AutoUtils;
 
@@ -22,7 +23,6 @@ import java.util.List;
 public class GradViewAdapter extends BaseAdapter {
 
     private List<Goods.GoodsItem> objects = new ArrayList<Goods.GoodsItem>();
-    @SuppressWarnings("unused")
     private Context context;
     private LayoutInflater layoutInflater;
 
@@ -92,7 +92,7 @@ public class GradViewAdapter extends BaseAdapter {
     private void initializeViews(final Goods.GoodsItem object, ViewHolder holder, final int position) {
         if (object.getPictures() != null && object.getPictures().length > 0) {
             Picasso.with(context)
-                    .load(object.getPictures()[0])
+                    .load(Utils.getRightUrl(object.getPictures()[0]))
                     .error(R.mipmap.ic_default)
                     .fit()
                     .into(holder.imageView);

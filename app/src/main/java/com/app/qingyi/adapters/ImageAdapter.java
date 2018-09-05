@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.qingyi.R;
+import com.app.qingyi.utils.Utils;
 import com.app.qingyi.views.AutoHeightImageView;
 import com.squareup.picasso.Picasso;
 import com.zhy.autolayout.utils.AutoUtils;
@@ -68,7 +69,7 @@ public class ImageAdapter extends BaseAdapter {
 
     private void initializeViews(final String url, ViewHolder holder, final int position) {
         Picasso.with(context)
-                .load(url)
+                .load(Utils.getRightUrl(url))
                 .error(R.mipmap.ic_default)
                 .fit()
                 .into(holder.imageView);

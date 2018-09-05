@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.app.qingyi.R;
 import com.app.qingyi.models.Goods;
+import com.app.qingyi.utils.Utils;
 import com.app.qingyi.views.AutoHeightImageView;
 import com.squareup.picasso.Picasso;
 import com.zhy.autolayout.utils.AutoUtils;
@@ -83,7 +84,7 @@ public class HistoryAdapter extends BaseAdapter {
     private void initializeViews(final Goods.GoodsItem item, ViewHolder holder, final int position) {
         if (item.getPictures() != null && item.getPictures().length > 0) {
             Picasso.with(context)
-                    .load(item.getPictures()[0])
+                    .load(Utils.getRightUrl(item.getPictures()[0]))
                     .error(R.mipmap.ic_default)
                     .fit()
                     .into(holder.imageView);

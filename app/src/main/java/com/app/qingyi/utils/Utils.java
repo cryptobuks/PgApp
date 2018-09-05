@@ -20,6 +20,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.app.qingyi.http.httputils.AllUrl;
+import com.app.qingyi.http.httputils.Url;
 import com.app.qingyi.models.PayStatus;
 
 import java.io.ByteArrayOutputStream;
@@ -69,6 +71,15 @@ public class Utils {
     public static String getStringOutE(String str) {
         BigDecimal bd = new BigDecimal(str);
         return bd.toPlainString();
+    }
+
+
+    //加载img
+    public static String getRightUrl(String str) {
+        if (str.contains("http")) {
+            return str;
+        }
+        return Url.BASE_URL + "/upload/" + str;
     }
 
     /**
@@ -483,7 +494,7 @@ public class Utils {
         if (str.length() < length) {
             return str;
         }
-        return str.substring(0,length)+"...";
+        return str.substring(0, length) + "...";
     }
 
     public static void startAppUpdate(Context context, String fileUrl, String name) {

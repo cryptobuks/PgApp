@@ -4,6 +4,7 @@ import com.app.qingyi.utils.Utils;
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -84,7 +85,7 @@ public class Goods implements Serializable {
         @Expose
         private String[] pictures;
         @Expose
-        private String visitors;
+        private int visitors;
 
         public String getFace() {
             return face;
@@ -174,14 +175,21 @@ public class Goods implements Serializable {
             this.pictures = pictures;
         }
 
-        public void setVisitors(String visitors) {
+        public void setVisitors(int visitors) {
             this.visitors = visitors;
         }
 
         public String getVisitors() {
-            return visitors;
+            return visitors >= 10000 ? division(visitors,10000) +"w" : visitors+"";
         }
 
+        public String division(int a ,int b){
+            String result = "";
+            float num =(float)a/b;
+            DecimalFormat df = new DecimalFormat("0.0");
+            result = df.format(num);
+            return result;
+        }
         public int getId() {
             return id;
         }
@@ -246,7 +254,7 @@ public class Goods implements Serializable {
             return pictures;
         }
 
-        public GoodsItem(int id, String title, String[] pictures, String visitors, String price) {
+        public GoodsItem(int id, String title, String[] pictures, int visitors, String price) {
             this.id = id;
             this.title = title;
             this.pictures = pictures;
