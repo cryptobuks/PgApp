@@ -5,6 +5,7 @@ import android.app.Application;
 
 import com.app.qingyi.http.httputils.HttpsUtil;
 import com.app.qingyi.utils.CrashHandler;
+import com.zhy.autolayout.config.AutoLayoutConifg;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        AutoLayoutConifg.getInstance().useDeviceSize();
 //        HttpsUtil.initHttpsUrlConnection(this);
 //        CrashHandler.getInstance().init(this);
     }
