@@ -80,8 +80,8 @@
 
             <ImageView
                 android:id="@+id/img1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="160px"
+                android:layout_height="160px"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="125px"
                 android:src="@mipmap/recharge" />
@@ -110,8 +110,8 @@
 
             <ImageView
                 android:id="@+id/img2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="160px"
+                android:layout_height="160px"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="125px"
                 android:src="@mipmap/mouth" />
