@@ -5,12 +5,15 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.zhy.autolayout.utils.AutoLayoutHelper;
 
 @SuppressLint("AppCompatCustomView")
 public class AutoHeightImageView extends ImageView {
 
+    private Drawable drawable = null;
+    private static int mWidth = 0;
     public AutoHeightImageView(Context context) {
         super(context);
     }
@@ -25,20 +28,22 @@ public class AutoHeightImageView extends ImageView {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        Drawable drawable = getDrawable();
-        if(drawable != null){
-            int width = drawable.getMinimumWidth();
-            int height = drawable.getMinimumHeight();
-            float scale = (float)width/height;
-
-            //强制根据图片原有比例，重新计算ImageView显示区域宽度
-            int widthMeasure = MeasureSpec.getSize(widthMeasureSpec);
-            int heightMeasure = (int)(widthMeasure / scale);
-
-            //并设置为MeasureSpec.EXACTLY精确模式保证之后的super.onMeasure()不再调整
-            heightMeasureSpec = MeasureSpec.makeMeasureSpec(heightMeasure, MeasureSpec.EXACTLY);
-        }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        drawable = getDrawable();
+        if (mWidth == 0) {
+            mWidth = getMeasuredWidth();
+            if (drawable != null) {
+                setAutoHeight();
+            }
+        }
+    }
+
+    private void setAutoHeight() {
+        if(drawable != null){
+            float scale = drawable.getMinimumHeight() / (float) drawable.getMinimumWidth();
+            float height = mWidth * scale;
+            setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) height));
+        }
     }
 
 }

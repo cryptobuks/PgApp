@@ -61,7 +61,7 @@ public abstract class PIctureAdapter extends BaseAdapter {
     @Override
     public String getItem(int position) {
         if (position == 0) return null;
-        return objects.get(position);
+        return objects.get(position-1);
     }
 
     @Override

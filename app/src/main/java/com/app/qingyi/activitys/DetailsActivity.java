@@ -32,10 +32,8 @@ import es.dmoral.toasty.Toasty;
 public class DetailsActivity extends BaseActivity implements View.OnClickListener {
 
     private Goods.GoodsItem goodsItem;
-    private TextView name, area, price, age, face, describe, service,buy,like;
-    private ImageView topImg;
-    private ScrollView mScrollView;
     private ListView mListView;
+    private TextView buy;
     private  int goodsId;
     private Handler handler = new Handler() {
         @Override
@@ -43,26 +41,8 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
             super.handleMessage(msg);
             switch (msg.what) {
                 case GlobleValue.SUCCESS:
-                    if (goodsItem != null) {
-                        service.setText(goodsItem.getService());
-                        face.setText(goodsItem.getBrief());
-                        describe.setText(goodsItem.getDescribe());
-
-                        buy.setText("查看联系方式： "+goodsItem.getSeePrice()+" DO");
-                        like.setText(goodsItem.getVisitors() + "");
-                        name.setText(goodsItem.getName());
-                        age.setText(goodsItem.getAge());
-                        price.setText(goodsItem.getPrice());
-                        area.setText(goodsItem.getProvince() + goodsItem.getCity() + goodsItem.getArea());
-                        if (goodsItem.getPictures() != null && goodsItem.getPictures().length > 0) {
-                            Picasso.with(DetailsActivity.this)
-                                    .load(Utils.getRightUrl(goodsItem.getPictures()[0]))
-                                    .error(R.mipmap.ic_default)
-                                    .fit()
-                                    .into(topImg);
-                            setImgs();
-                        }
-                    }
+                    buy.setText("查看联系方式： " + goodsItem.getSeePrice() + " DO");
+                        setImgs();
                     break;
                 case GlobleValue.FAIL:
                     break;
@@ -80,23 +60,8 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
 
     private void initView() {
         ((TextView) findViewById(R.id.tv_tit)).setText("详情");
-        name = (TextView) findViewById(R.id.name);
-        area = (TextView) findViewById(R.id.area);
-        price = (TextView) findViewById(R.id.price);
-        age = (TextView) findViewById(R.id.age);
-
-        like = (TextView) findViewById(R.id.like);
-
-        describe = (TextView) findViewById(R.id.describe);
-        service = (TextView) findViewById(R.id.service);
-        face = (TextView) findViewById(R.id.face);
-
-        buy = (TextView) findViewById(R.id.buy);
-
-        topImg = (ImageView) findViewById(R.id.topImg);
-
         mListView = (ListView) findViewById(R.id.mListView);
-        mScrollView = (ScrollView) findViewById(R.id.mScrollView);
+        buy = (TextView) findViewById(R.id.buy);
     }
 
     @Override
@@ -145,17 +110,17 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
                         }
                     }, this);
         } else {
-            Snackbar.make(name, "网络未连接", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(mListView, "网络未连接", Snackbar.LENGTH_LONG).show();
         }
     }
 
     private void setImgs() {
-        ImageAdapter mImageAdapter = new ImageAdapter(this, goodsItem.getPictures());
+        ImageAdapter mImageAdapter = new ImageAdapter(this, goodsItem.getPictures(),goodsItem);
         mListView.setAdapter(mImageAdapter);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                mScrollView.scrollTo(0, 0);
+                mListView.scrollTo(0, 0);
             }
         }, 0);
     }
