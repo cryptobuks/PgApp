@@ -28,8 +28,7 @@
 
                 <ImageView
                     android:id="@+id/topImg"
-                    android:visibility="gone"
-                    android:scaleType="centerCrop"
+                    android:scaleType="center"
                     android:layout_width="300px"
                     android:layout_height="300px"
                     android:layout_margin="50px" />
@@ -39,7 +38,6 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="60px"
                     android:layout_marginTop="60px"
-                    android:layout_marginLeft="100px"
                     android:orientation="vertical">
 
                     <RelativeLayout
