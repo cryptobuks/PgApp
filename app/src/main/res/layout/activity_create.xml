@@ -512,13 +512,11 @@
                     android:enabled="true"
                     android:gravity="top"
                     android:hint="纵情细节"
-                    android:inputType="text"
+                    android:inputType="textMultiLine"
                     android:maxLines="10"
                     android:minLines="8"
                     android:paddingLeft="45px"
                     android:paddingTop="45px"
-                    android:scrollbars="vertical"
-                    android:singleLine="true"
                     android:textColorHint="@color/black"
                     android:textSize="16sp" />
 

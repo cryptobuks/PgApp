@@ -63,8 +63,8 @@ public class ChooseCityUtil implements View.OnClickListener, NumberPicker.OnValu
         npCity = (NumberPicker) window.findViewById(R.id.npCity);
         npCounty = (NumberPicker) window.findViewById(R.id.npCounty);
         if(showArea){
-            npCounty.setValue(View.VISIBLE);
-        }else npCounty.setValue(View.GONE);
+            npCounty.setVisibility(View.VISIBLE);
+        }else npCounty.setVisibility(View.GONE);
         npProvince.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         npCity.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         npCounty.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
