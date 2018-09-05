@@ -86,7 +86,7 @@
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/et_bg_gery"
                     android:gravity="center_vertical"
-                    android:hint="标题"
+                    android:hint="昵称"
                     android:inputType="text"
                     android:maxLines="1"
                     android:paddingLeft="45px"
