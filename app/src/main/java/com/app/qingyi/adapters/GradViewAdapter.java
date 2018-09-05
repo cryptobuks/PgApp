@@ -99,7 +99,7 @@ public class GradViewAdapter extends BaseAdapter {
         }
 
         holder.tvTitle.setText(object.getTitle());
-        holder.price.setText(object.getPrice());
+        holder.price.setText(object.getPrice()+"元/次起");
         holder.clicks.setText(object.getVisitors() + "");
     }
 

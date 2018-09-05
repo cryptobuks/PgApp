@@ -105,6 +105,7 @@ public abstract class PIctureAdapter extends BaseAdapter {
                         .fit()
                         .into(holder.imageView);
             }
+            holder.imageView.setOnClickListener(null);
         }
     }
 
