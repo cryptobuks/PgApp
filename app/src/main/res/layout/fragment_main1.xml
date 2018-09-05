@@ -25,16 +25,17 @@
                 android:layout_marginLeft="20px"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:onClick="onClick"
-                android:padding="30px"
+                android:padding="20px"
                 android:src="@mipmap/location" />
 
             <TextView
                 android:id="@+id/tv_tit"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/iv_one"
                 android:text="定位中"
+                android:gravity="center_vertical"
                 android:textColor="#B3ffffff"
                 android:textSize="42px" />
 

@@ -122,7 +122,7 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
                         .setPhotoCount(1)
                         .setShowCamera(true)
                         .setShowGif(true)
-                        .setPreviewEnabled(false)
+                        .setPreviewEnabled(true)
                         .start(CreateActivity.this, PhotoPicker.REQUEST_CODE);
             }
         };
@@ -151,7 +151,7 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.layoutCity:
             case R.id.city:
-                final ChooseCityUtil cityUtil = new ChooseCityUtil();
+                final ChooseCityUtil cityUtil = new ChooseCityUtil(true);
                 String difail = "北京-北京-昌平";
                 String[] oldCityArray = difail.split("-");//将TextView上的文本分割成数组 当做默认值
                 cityUtil.createDialog(this, oldCityArray, new ChooseCityUtil.ChooseCityInterface() {

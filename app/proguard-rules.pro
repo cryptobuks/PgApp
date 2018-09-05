@@ -24,17 +24,9 @@
 -keepattributes *Annotation*
 
 # 保持哪些类不被混淆
--keep public class * extends android.app.Fragment
--keep public class * extends android.app.Activity
--keep public class * extends android.app.Application
--keep public class * extends android.app.Service
--keep public class * extends android.content.BroadcastReceiver
--keep public class * extends android.content.ContentProvider
 -keep public class * extends android.app.backup.BackupAgentHelper
 -keep public class * extends android.preference.Preference
 -keep public class com.android.vending.licensing.ILicensingService
-#如果有引用v4包可以添加下面这行
--keep public class * extends android.support.v4.app.Fragment
 
 #忽略警告
 -ignorewarning
@@ -50,17 +42,6 @@
 #混淆前后的映射
 -printmapping mapping.txt
 
-########记录生成的日志数据，gradle build时 在本项目根目录输出-end######
-
-
-#####混淆保护自己项目的部分代码以及引用的第三方jar包library#######
-
-#-libraryjars libs/umeng-analytics-v5.2.4.jar
-
-#三星应用市场需要添加:sdk-v1.0.0.jar,look-v1.0.1.jar
-#-libraryjars libs/sdk-v1.0.0.jar
-#-libraryjars libs/httpmime-4.1.2.jar
-
 -ignorewarnings
 
 -dontwarn org.springframework.**
@@ -69,14 +50,10 @@
 -keep class com.lippi.recorder.iirfilterdesigner.** {*; }
 #项目特殊处理代码
 
-#忽略警告
--dontwarn com.lippi.recorder.utils**
 #保留一个完整的包
 -keep class com.can.ylkjcjq.utils.** {
     *;
  }
-
-#-keep class  com.lippi.recorder.utils.AudioRecorder{*;}
 
 ## 注解支持
 -keepclassmembers class *{
@@ -107,17 +84,6 @@
 
 -keepattributes Signature
 -keepattributes *Annotation*
-#保留一个完整的包
--keep class com.can.ylkjcjq.models.** {
-    *;
- }
-
-##---------------End: proguard configuration for Gson ----------
-
-#保持 native 方法不被混淆
-#    		-keepclasseswithmembernames class * {
-#    		    native <methods>;
-#    		}
 
 # Keep names - Native method names. Keep all native class/method names.
 -keepclasseswithmembers,allowshrinking class * {
@@ -127,11 +93,6 @@
 #保持自定义控件类不被混淆
 -keepclasseswithmembers class * {
     public <init>(android.content.Context, android.util.AttributeSet);
-}
-
-#保持自定义控件类不被混淆
--keepclassmembers class * extends android.app.Activity {
-   public void *(android.view.View);
 }
 
 #保持 Parcelable 不被混淆
@@ -158,12 +119,6 @@
     java.lang.Object readResolve();
 }
 
-#保持枚举 enum 类不被混淆 如果混淆报错，建议直接使用上面的 -keepclassmembers class * implements java.io.Serializable即可
-#-keepclassmembers enum * {
-#  public static **[] values();
-#  public static ** valueOf(java.lang.String);
-#}
-
 -keepclassmembers class * {
     public void *ButtonClicked(android.view.View);
 }
@@ -172,3 +127,22 @@
 -keepclassmembers class **.R$* {
     public static <fields>;
 }
+
+# Glide
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+    **[] $VALUES;
+    public *;
+}
+# support-v7-appcompat
+-keep public class android.support.v7.widget.** { *; }
+-keep public class android.support.v7.internal.widget.** { *; }
+-keep public class android.support.v7.internal.view.menu.** { *; }
+-keep public class * extends android.support.v4.view.ActionProvider {
+    public <init>(android.content.Context);
+}
+# support-design
+-dontwarn android.support.design.**
+-keep class android.support.design.** { *; }
+-keep interface android.support.design.** { *; }
+-keep public class android.support.design.R$* { *; }

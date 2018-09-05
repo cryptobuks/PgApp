@@ -37,7 +37,11 @@ public class ChooseCityUtil implements View.OnClickListener, NumberPicker.OnValu
     TextView tvCancel, tvSure;
     String[] newCityArray = new String[3];
     CityBean bean;
+    private boolean showArea = true;
 
+    public ChooseCityUtil(boolean showArea){
+        this.showArea = showArea;
+    }
     public void createDialog(Context context, String[] oldCityArray, ChooseCityInterface cityInterface) {
         this.context = context;
         this.cityInterface = cityInterface;
@@ -58,7 +62,9 @@ public class ChooseCityUtil implements View.OnClickListener, NumberPicker.OnValu
         npProvince = (NumberPicker) window.findViewById(R.id.npProvince);
         npCity = (NumberPicker) window.findViewById(R.id.npCity);
         npCounty = (NumberPicker) window.findViewById(R.id.npCounty);
-
+        if(showArea){
+            npCounty.setValue(View.VISIBLE);
+        }else npCounty.setValue(View.GONE);
         npProvince.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         npCity.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         npCounty.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);

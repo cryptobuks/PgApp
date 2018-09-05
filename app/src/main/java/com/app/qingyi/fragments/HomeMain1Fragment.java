@@ -254,7 +254,7 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
     }
 
     private void selectCity() {
-        final ChooseCityUtil cityUtil = new ChooseCityUtil();
+        final ChooseCityUtil cityUtil = new ChooseCityUtil(false);
         String difail = "北京-北京-昌平";
         String[] oldCityArray = difail.split("-");//将TextView上的文本分割成数组 当做默认值
         cityUtil.createDialog(mContext, oldCityArray, new ChooseCityUtil.ChooseCityInterface() {
@@ -264,7 +264,7 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
                 city = newCityArray[1];
                 tv_tit.setText(city);
                 getTitles();
-                Toasty.normal(mContext, newCityArray[0] + "-" + newCityArray[1] + "-" + newCityArray[2]).show();
+//                Toasty.normal(mContext, newCityArray[0] + "-" + newCityArray[1] + "-" + newCityArray[2]).show();
             }
         });
     }
