@@ -5,6 +5,9 @@ import android.util.AttributeSet;
 import android.widget.GridView;
 import android.widget.ListView;
 
+import com.zhy.autolayout.AutoRelativeLayout;
+import com.zhy.autolayout.utils.AutoLayoutHelper;
+
 public class GradViewForScrollView extends GridView {
 
     public GradViewForScrollView(Context context) {
