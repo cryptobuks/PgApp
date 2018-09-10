@@ -176,6 +176,7 @@ public class HomeMain2Fragment extends LazyFragment implements View.OnClickListe
 
     private void getAccount() {
         if (LoginConfig.getAuthorization() == null || LoginConfig.getAuthorization().equals("")) {
+            mAccountStatus = null;
             tvAmount.setText("0");
             account.setText("未登录");
             logout.setVisibility(View.GONE);
