@@ -183,6 +183,10 @@ public class Goods implements Serializable {
             return visitors >= 10000 ? division(visitors,10000) +"w" : visitors+"";
         }
 
+        public void addVisiter(){
+            this.visitors += 1;
+        }
+
         public String division(int a ,int b){
             String result = "";
             float num =(float)a/b;

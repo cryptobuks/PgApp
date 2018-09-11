@@ -150,6 +150,8 @@ public class HomeMain1Fragment extends Fragment implements View.OnClickListener 
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                allData.get(i).addVisiter();
+                mGradViewAdapter.setObjects(allData);
                 Intent intent = new Intent(mContext, DetailsActivity.class);
                 intent.putExtra("id", allData.get(i).getId());
                 startActivity(intent);
