@@ -91,10 +91,12 @@ public class GradViewAdapter extends BaseAdapter {
 
     private void initializeViews(final Goods.GoodsItem object, ViewHolder holder, final int position) {
         if (object.getPictures() != null && object.getPictures().length > 0) {
+            String url = Utils.getRightUrl(object.getPictures()[0]);
             Picasso.with(context)
-                    .load(Utils.getRightUrl(object.getPictures()[0]))
+                    .load(url)
                     .error(R.mipmap.ic_default)
                     .fit()
+                    .tag(url)
                     .into(holder.imageView);
         }
 

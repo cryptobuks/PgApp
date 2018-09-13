@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.app.qingyi.R;
@@ -59,9 +60,10 @@ public class ImageAdapter extends BaseAdapter {
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (position == 0) {
-            ViewHolder viewHolder = new ViewHolder();
+        ViewHolder viewHolder;
+        if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.layout, parent, false);
+            viewHolder = new ViewHolder();
             viewHolder.name = (TextView) convertView.findViewById(R.id.name);
             viewHolder.area = (TextView) convertView.findViewById(R.id.area);
             viewHolder.price = (TextView) convertView.findViewById(R.id.price);
@@ -71,21 +73,26 @@ public class ImageAdapter extends BaseAdapter {
             viewHolder.service = (TextView) convertView.findViewById(R.id.service);
             viewHolder.face = (TextView) convertView.findViewById(R.id.face);
             viewHolder.topImg = (ImageView) convertView.findViewById(R.id.topImg);
-            setText(viewHolder);
-        } else {
-            ViewHolder viewHolder;
-            viewHolder = new ViewHolder();
-            convertView = layoutInflater.inflate(R.layout.img_list_item, parent, false);
+            viewHolder.layout2 = (LinearLayout) convertView.findViewById(R.id.layout2);
             viewHolder.imageView = (AutoHeightImageView) convertView.findViewById(R.id.imageView);
             convertView.setTag(viewHolder);
-            initializeViews(getItem(position), (ViewHolder) convertView.getTag(), position);
+            AutoUtils.autoSize(convertView);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
-        AutoUtils.autoSize(convertView);
+        if (position == 0) {
+            setText(viewHolder);
+        } else {
+            initializeViews(getItem(position), viewHolder, position);
+        }
         return convertView;
     }
 
     private void initializeViews(final String url, ViewHolder holder, final int position) {
-        if (position != 0) {
+        holder.layout2.setVisibility(View.GONE);
+        holder.imageView.setVisibility(View.VISIBLE);
+        if (position != 0 && !url.equals(holder.imageView.getTag())) {
+            holder.imageView.setTag(url);
             Picasso.with(context)
                     .load(Utils.getRightUrl(url))
                     .error(R.mipmap.ic_default)
@@ -94,7 +101,9 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     private void setText(ViewHolder viewHolder) {
-        if(goodsItem == null) return;
+        viewHolder.layout2.setVisibility(View.VISIBLE);
+        viewHolder.imageView.setVisibility(View.GONE);
+        if (goodsItem == null) return;
         viewHolder.service.setText(goodsItem.getService());
         viewHolder.face.setText(goodsItem.getBrief());
         viewHolder.describe.setText(goodsItem.getDescribe());
@@ -113,10 +122,11 @@ public class ImageAdapter extends BaseAdapter {
         }
     }
 
-    protected class ViewHolder {
+    public class ViewHolder {
         private AutoHeightImageView imageView;
         private TextView name, area, price, age, like, describe, service, face, buy;
         private ImageView topImg;
+        private LinearLayout layout2;
     }
 }
 
