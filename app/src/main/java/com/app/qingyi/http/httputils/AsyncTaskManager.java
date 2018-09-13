@@ -29,7 +29,7 @@ public class AsyncTaskManager {
     public static String ContentTypeTS = "application/octet-stream";
     public static String ContentTypeJson = "application/json; charset=UTF-8";
     /* token */
-    public static String LoginToken = "Basic cHJvbW9zZXJ2ZXI6ZTYxOTcyMDViYTZmOWM2";
+    public static String LoginToken = "Basic cWluZ3lpc2U6ZWpqOTcyMDViYTZmdXV1";
     private static AsyncTaskManager mTask;
     private String result = "";
 
