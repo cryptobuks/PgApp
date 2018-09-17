@@ -86,6 +86,16 @@ public class Goods implements Serializable {
         private String[] pictures;
         @Expose
         private int visitors;
+        @Expose
+        private boolean like = false;
+
+        public boolean isLike() {
+            return like;
+        }
+
+        public void setLike(boolean like) {
+            this.like = like;
+        }
 
         public String getFace() {
             return face;

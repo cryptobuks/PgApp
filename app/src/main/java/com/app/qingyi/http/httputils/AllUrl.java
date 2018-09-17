@@ -65,6 +65,12 @@ public class AllUrl {
     public String getGoodsDetailsUrl(int id) {
         return Url.BASE_URL + "/goods/list/item/details/" + id;
     }
+    public String getGoodsLikeUrl(int goodsId,boolean like) {
+        return Url.BASE_URL + "/goods/like/" + goodsId + "/" + like;
+    }
+    public String getGoodsifLikeUrl(int goodsId) {
+        return Url.BASE_URL + "/goods/if/like/" + goodsId ;
+    }
 
     public String getGoodsPrivateUrl(int id) {
         return Url.BASE_URL + "/goods/list/item/private/" + id;

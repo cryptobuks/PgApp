@@ -17,11 +17,11 @@ import com.squareup.picasso.Picasso;
 import com.zhy.autolayout.utils.AutoUtils;
 
 
-public class ImageAdapter extends BaseAdapter {
+public abstract class  ImageAdapter extends BaseAdapter {
 
     private String[] objects = new String[]{};
     private Goods.GoodsItem goodsItem;
-
+    public abstract void ilike();
     private Context context;
     private LayoutInflater layoutInflater;
 
@@ -34,6 +34,11 @@ public class ImageAdapter extends BaseAdapter {
 
     public void setObjects(String[] objects) {
         this.objects = objects;
+        notifyDataSetChanged();
+    }
+
+    public void setGoodsItem(Goods.GoodsItem goodsItem){
+        this.goodsItem = goodsItem;
         notifyDataSetChanged();
     }
 
@@ -73,6 +78,7 @@ public class ImageAdapter extends BaseAdapter {
             viewHolder.service = (TextView) convertView.findViewById(R.id.service);
             viewHolder.face = (TextView) convertView.findViewById(R.id.face);
             viewHolder.topImg = (ImageView) convertView.findViewById(R.id.topImg);
+            viewHolder.imglike = (ImageView) convertView.findViewById(R.id.imglike);
             viewHolder.layout2 = (LinearLayout) convertView.findViewById(R.id.layout2);
             viewHolder.imageView = (AutoHeightImageView) convertView.findViewById(R.id.imageView);
             convertView.setTag(viewHolder);
@@ -120,10 +126,24 @@ public class ImageAdapter extends BaseAdapter {
                     .fit()
                     .into(viewHolder.topImg);
         }
+        if(goodsItem.isLike()){
+            viewHolder.imglike.setImageResource(R.mipmap.like);
+        }else{
+            viewHolder.imglike.setImageResource(R.mipmap.like_grey);
+        }
+        View.OnClickListener clickLike = new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                ilike();
+            }
+        };
+        viewHolder.like.setOnClickListener(clickLike);
+        viewHolder.imglike.setOnClickListener(clickLike);
     }
 
     public class ViewHolder {
         private AutoHeightImageView imageView;
+        private ImageView imglike;
         private TextView name, area, price, age, like, describe, service, face, buy;
         private ImageView topImg;
         private LinearLayout layout2;

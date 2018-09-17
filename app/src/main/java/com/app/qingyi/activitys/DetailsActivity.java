@@ -21,6 +21,7 @@ import com.app.qingyi.http.requestparams.BaseRequestParm;
 import com.app.qingyi.http.responsebeans.BaseResponseBean;
 import com.app.qingyi.http.responsebeans.RequestListener;
 import com.app.qingyi.models.Goods;
+import com.app.qingyi.models.MessageData;
 import com.app.qingyi.utils.GlobleValue;
 import com.app.qingyi.utils.LoginConfig;
 import com.app.qingyi.utils.Utils;
@@ -35,6 +36,7 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
     private ListView mListView;
     private TextView buy;
     private  int goodsId;
+    private  boolean iflike = false;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -45,6 +47,13 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
                         setImgs();
                     break;
                 case GlobleValue.FAIL:
+                    break;
+                case GlobleValue.SUCCESS2:
+                    notifyTop();
+                    break;
+                case GlobleValue.SUCCESS3:
+                    goodsItem.setLike(iflike);
+                    notifyTopByNet();
                     break;
             }
         }
@@ -114,8 +123,15 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
+    private  ImageAdapter mImageAdapter;
     private void setImgs() {
-        ImageAdapter mImageAdapter = new ImageAdapter(this, goodsItem.getPictures(),goodsItem);
+        mImageAdapter = new ImageAdapter(this, goodsItem.getPictures(),goodsItem){
+
+            @Override
+            public void ilike() {
+                like(!goodsItem.isLike());
+            }
+        };
         mListView.setAdapter(mImageAdapter);
         handler.postDelayed(new Runnable() {
             @Override
@@ -123,5 +139,86 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
                 mListView.scrollTo(0, 0);
             }
         }, 0);
+        iflike();
+    }
+
+    private void notifyTop(){
+        goodsItem.setLike(!goodsItem.isLike());
+        mImageAdapter.setGoodsItem(goodsItem);
+    }
+
+    private void notifyTopByNet(){
+        mImageAdapter.setGoodsItem(goodsItem);
+    }
+
+    private void like(boolean like) {
+        if (mLoginConfig.getAuthorization() != null && !mLoginConfig.getAuthorization().equals("")) {
+            String url = AllUrl.getInstance().getGoodsLikeUrl(goodsId,like);
+            if (HttpUtil.isNetworkAvailable(this)) {
+                AsyncTaskManager.getInstance().StartHttp(new BaseRequestParm(this, url, null,
+                                AsyncTaskManager.ContentTypeJson, "GET", LoginConfig.getAuthorization()),
+                        new RequestListener<BaseResponseBean>() {
+
+                            @Override
+                            public void onFailed() {
+                                handler.sendEmptyMessage(GlobleValue.FAIL);
+                            }
+
+                            @Override
+                            public void onComplete(BaseResponseBean bean) {
+                                if (bean.isSuccess()) {
+                                    analiData(bean);
+                                } else
+                                    handler.sendEmptyMessage(GlobleValue.FAIL);
+                            }
+
+                            private void analiData(BaseResponseBean bean) {
+                                MessageData mMessageData = GsonUtils.JsonObjectToBean(GsonUtils.getRootJsonObject(bean.getResult()), MessageData.class);
+                                if(mMessageData.isSuccess()){
+                                    handler.sendEmptyMessage(GlobleValue.SUCCESS2);
+                                }else  handler.sendEmptyMessage(GlobleValue.FAIL);
+
+                            }
+                        }, this);
+            } else {
+                Snackbar.make(mListView, "网络未连接", Snackbar.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private void iflike() {
+        if (mLoginConfig.getAuthorization() != null && !mLoginConfig.getAuthorization().equals("")) {
+            String url = AllUrl.getInstance().getGoodsifLikeUrl(goodsId);
+            if (HttpUtil.isNetworkAvailable(this)) {
+                AsyncTaskManager.getInstance().StartHttp(new BaseRequestParm(this, url, null,
+                                AsyncTaskManager.ContentTypeJson, "GET", LoginConfig.getAuthorization()),
+                        new RequestListener<BaseResponseBean>() {
+
+                            @Override
+                            public void onFailed() {
+                                handler.sendEmptyMessage(GlobleValue.FAIL);
+                            }
+
+                            @Override
+                            public void onComplete(BaseResponseBean bean) {
+                                if (bean.isSuccess()) {
+                                    analiData(bean);
+                                } else
+                                    handler.sendEmptyMessage(GlobleValue.FAIL);
+                            }
+
+                            private void analiData(BaseResponseBean bean) {
+                                MessageData mMessageData = GsonUtils.JsonObjectToBean(GsonUtils.getRootJsonObject(bean.getResult()), MessageData.class);
+                                if(mMessageData.isSuccess()){
+                                    iflike = true;
+                                    handler.sendEmptyMessage(GlobleValue.SUCCESS3);
+                                }else  handler.sendEmptyMessage(GlobleValue.FAIL);
+
+                            }
+                        }, this);
+            } else {
+                Snackbar.make(mListView, "网络未连接", Snackbar.LENGTH_LONG).show();
+            }
+        }
     }
 }
